@@ -1,7 +1,10 @@
 """MODULE: access_request. Contains the access request class"""
 import hashlib
+import re
 import json
 from datetime import datetime
+
+from .vaccine_management_exception import VaccineManagementException
 
 class VaccinePatientRegister:
     """Class representing the register of the patient in the system"""
@@ -9,7 +12,7 @@ class VaccinePatientRegister:
     def __init__( self, patient_id, full_name, registration_type, phone_number, age ):
         self.__patient_id = patient_id
         self.__full_name = full_name
-        self.__registration_type = registration_type
+        self.__registration_type = self.validate_registration_type(registration_type)
         self.__phone_number = phone_number
         self.__age = age
         justnow = datetime.utcnow()
@@ -73,3 +76,10 @@ class VaccinePatientRegister:
     def patient_sys_id(self):
         """Property representing the md5 generated"""
         return self.__patient_sys_id
+
+    def validate_registration_type(self, registration_type):
+        myregex = re.compile(r"(Regular|Family)")
+        res = myregex.fullmatch(registration_type)
+        if not res:
+            raise VaccineManagementException("Registration type is nor valid")
+        return registration_type

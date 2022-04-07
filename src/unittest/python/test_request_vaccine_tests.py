@@ -240,8 +240,8 @@ class TestRequestVacID(unittest.TestCase):
         my_request = VaccineManager()
         with self.assertRaises(VaccineManagementException) as context_manager:
             my_request.request_vaccination_id("bb5dbd6f-d8b4-413f-8eb9-dd262cfc54e0",
-                                                      "Pedro Hernandez", "+34123456789",
-                                                      "Regularito","22" )
+                                                      "Pedro Hernandez","Regularito",
+                                                      "+34123456789","22" )
         self.assertEqual("Registration type is nor valid", context_manager.exception.message)
 
 

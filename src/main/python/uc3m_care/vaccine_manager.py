@@ -113,10 +113,7 @@ class VaccineManager:
                                 phone_number,
                                 age):
         """Register the patinent into the patients file"""
-        myregex = re.compile(r"(Regular|Family)")
-        res = myregex.fullmatch(registration_type)
-        if not res:
-            raise VaccineManagementException ("Registration type is nor valid")
+        #self.validate_registration_type(registration_type)
 
         myregex = re.compile(r"^(?=^.{1,30}$)(([a-zA-Z]+\s)+[a-zA-Z]+)$")
         res = myregex.fullmatch(name_surname)
@@ -142,6 +139,8 @@ class VaccineManager:
         self.save_store(my_patient)
 
         return my_patient.patient_sys_id
+
+
 
     def get_vaccine_date (self, input_file):
         """Gets an appoinment for a registered patient"""
