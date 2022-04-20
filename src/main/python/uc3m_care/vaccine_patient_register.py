@@ -11,10 +11,10 @@ class VaccinePatientRegister:
     #pylint: disable=too-many-arguments
     def __init__( self, patient_id, full_name, registration_type, phone_number, age ):
         self.__patient_id = patient_id
-        self.__full_name = full_name
+        self.__full_name = self.validate_name_surname(full_name)
         self.__registration_type = self.validate_registration_type(registration_type)
-        self.__phone_number = phone_number
-        self.__age = age
+        self.__phone_number = self.validate_phone_number(phone_number)
+        self.__age = self.validate_age(age)
         justnow = datetime.utcnow()
         self.__time_stamp = datetime.timestamp(justnow)
         #self.__time_stamp = 1645542405.232003
@@ -83,3 +83,26 @@ class VaccinePatientRegister:
         if not res:
             raise VaccineManagementException("Registration type is nor valid")
         return registration_type
+
+    def validate_name_surname(self, name_surname):
+        myregex = re.compile(r"^(?=^.{1,30}$)(([a-zA-Z]+\s)+[a-zA-Z]+)$")
+        res = myregex.fullmatch(name_surname)
+        if not res:
+            raise VaccineManagementException("name surname is not valid")
+        return name_surname
+
+    def validate_age(self, age):
+        if age.isnumeric():
+            if (int(age) < 6 or int(age) > 125):
+                raise VaccineManagementException("age is not valid")
+        else:
+            raise VaccineManagementException("age is not valid")
+        return age
+
+    @staticmethod
+    def validate_phone_number(phone_number):
+        myregex = re.compile(r"^(\+)[0-9]{11}")
+        res = myregex.fullmatch(phone_number)
+        if not res:
+            raise VaccineManagementException("phone number is not valid")
+        return phone_number

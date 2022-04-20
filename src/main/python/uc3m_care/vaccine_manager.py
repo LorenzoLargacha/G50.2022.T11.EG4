@@ -114,21 +114,10 @@ class VaccineManager:
                                 age):
         """Register the patinent into the patients file"""
         #self.validate_registration_type(registration_type)
+        #self.validate_name_surname(name_surname)
+        #self.validate_phone_number(phone_number)
+        #self.validate_age(age)
 
-        myregex = re.compile(r"^(?=^.{1,30}$)(([a-zA-Z]+\s)+[a-zA-Z]+)$")
-        res = myregex.fullmatch(name_surname)
-        if not res:
-            raise VaccineManagementException ("name surname is not valid")
-
-        myregex = re.compile(r"^(\+)[0-9]{11}")
-        res = myregex.fullmatch(phone_number)
-        if not res:
-            raise VaccineManagementException ("phone number is not valid")
-        if age.isnumeric():
-            if (int(age) < 6 or int(age) > 125 ):
-                raise VaccineManagementException("age is not valid")
-        else:
-            raise VaccineManagementException("age is not valid")
         if self.validate_guid(patient_id):
             my_patient = VaccinePatientRegister(patient_id,
                                                 name_surname,
@@ -139,7 +128,6 @@ class VaccineManager:
         self.save_store(my_patient)
 
         return my_patient.patient_sys_id
-
 
 
     def get_vaccine_date (self, input_file):
@@ -160,13 +148,10 @@ class VaccineManager:
             if not res:
                 raise VaccineManagementException("patient system id is not valid")
         except KeyError as ex:
-            raise  VaccineManagementException("Bad label patient_id") from ex
+            raise VaccineManagementException("Bad label patient_id") from ex
 
         try:
-            myregex = re.compile(r"^(\+)[0-9]{11}")
-            res = myregex.fullmatch(data["ContactPhoneNumber"])
-            if not res:
-                raise VaccineManagementException("phone number is not valid")
+            VaccinePatientRegister.validate_phone_number(data["ContactPhoneNumber"])
         except KeyError as ex:
             raise VaccineManagementException("Bad label contact phone") from ex
         file_store = JSON_FILES_PATH + "store_patient.json"
