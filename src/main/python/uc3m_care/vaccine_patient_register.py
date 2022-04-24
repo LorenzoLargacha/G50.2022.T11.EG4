@@ -1,5 +1,6 @@
 """MODULE: access_request. Contains the access request class"""
 import hashlib
+import uuid
 import re
 import json
 from datetime import datetime
@@ -10,7 +11,7 @@ class VaccinePatientRegister:
     """Class representing the register of the patient in the system"""
     #pylint: disable=too-many-arguments
     def __init__( self, patient_id, full_name, registration_type, phone_number, age ):
-        self.__patient_id = patient_id
+        self.__patient_id = self.validate_guid(patient_id)
         self.__full_name = self.validate_name_surname(full_name)
         self.__registration_type = self.validate_registration_type(registration_type)
         self.__phone_number = self.validate_phone_number(phone_number)
@@ -77,6 +78,20 @@ class VaccinePatientRegister:
         """Property representing the md5 generated"""
         return self.__patient_sys_id
 
+    def validate_guid(self, patient_id):
+        "Method for validating uuid  v4"
+        try:
+            my_uuid = uuid.UUID(patient_id)
+            myregex = re.compile(r"^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]" +
+                                 "{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$",
+                                 re.IGNORECASE)
+            res = myregex.fullmatch(my_uuid.__str__())
+            if not res:
+                raise VaccineManagementException ("UUID invalid")
+        except ValueError as val_er:
+            raise VaccineManagementException ("Id received is not a UUID") from val_er
+        return patient_id
+
     def validate_registration_type(self, registration_type):
         myregex = re.compile(r"(Regular|Family)")
         res = myregex.fullmatch(registration_type)
@@ -106,3 +121,4 @@ class VaccinePatientRegister:
         if not res:
             raise VaccineManagementException("phone number is not valid")
         return phone_number
+

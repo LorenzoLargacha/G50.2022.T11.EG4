@@ -16,21 +16,6 @@ class VaccineManager:
         pass
 
     @staticmethod
-    def validate_guid(guid):
-        "Method for validating uuid  v4"
-        try:
-            my_uuid = uuid.UUID(guid)
-            myregex = re.compile(r"^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]" +
-                                 "{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$",
-                                 re.IGNORECASE)
-            res = myregex.fullmatch(my_uuid.__str__())
-            if not res:
-                raise VaccineManagementException ("UUID invalid")
-        except ValueError as val_er:
-            raise VaccineManagementException ("Id received is not a UUID") from val_er
-        return True
-
-    @staticmethod
     def validate_date_signature(s):
         """Method for validating sha256 values"""
         myregex = re.compile(r"[0-9a-fA-F]{64}$")
@@ -117,9 +102,8 @@ class VaccineManager:
         #self.validate_name_surname(name_surname)
         #self.validate_phone_number(phone_number)
         #self.validate_age(age)
-
-        if self.validate_guid(patient_id):
-            my_patient = VaccinePatientRegister(patient_id,
+        #if self.validate_guid(patient_id):
+        my_patient = VaccinePatientRegister(patient_id,
                                                 name_surname,
                                                 registration_type,
                                                 phone_number,
