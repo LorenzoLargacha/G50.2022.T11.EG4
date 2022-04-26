@@ -46,16 +46,15 @@ class VaccinationAppoinment():
         self.__patient_sys_id = value
 
     @property
-    def phone_number( self ):
+    def phone_number(self):
         """Property that represents the phone number of the patient"""
         return self.__phone_number
-
     @phone_number.setter
-    def phone_number( self, value ):
+    def phone_number(self, value):
         self.__phone_number = value
 
     @property
-    def vaccination_signature( self ):
+    def vaccination_signature(self):
         """Returns the sha256 signature of the date"""
         return hashlib.sha256(self.__signature_string().encode()).hexdigest()
 
@@ -63,13 +62,12 @@ class VaccinationAppoinment():
     def issued_at(self):
         """Returns the issued at value"""
         return self.__issued_at
-
     @issued_at.setter
-    def issued_at( self, value ):
+    def issued_at(self, value):
         self.__issued_at = value
 
     @property
-    def appoinment_date( self ):
+    def appoinment_date(self):
         """Returns the vaccination date"""
         return self.__appoinment_date
 

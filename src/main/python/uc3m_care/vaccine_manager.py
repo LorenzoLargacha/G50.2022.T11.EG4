@@ -16,7 +16,7 @@ class VaccineManager:
         pass
 
     @staticmethod
-    def validate_date_signature(date_signature):
+    def validate_date_signature(date_signature: str) -> None:
         """Method for validating sha256 values"""
         date_signature_pattern = re.compile(r"[0-9a-fA-F]{64}$")
         result = date_signature_pattern.fullmatch(date_signature)
