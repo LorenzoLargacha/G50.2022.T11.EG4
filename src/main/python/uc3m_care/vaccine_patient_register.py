@@ -99,9 +99,9 @@ class VaccinePatientRegister:
         return registration_type
 
     def validate_name_surname(self, name_surname):
-        myregex = re.compile(r"^(?=^.{1,30}$)(([a-zA-Z]+\s)+[a-zA-Z]+)$")
-        res = myregex.fullmatch(name_surname)
-        if not res:
+        name_surname_pattern = re.compile(r"^(?=^.{1,30}$)(([a-zA-Z]+\s)+[a-zA-Z]+)$")
+        result = name_surname_pattern.fullmatch(name_surname)
+        if not result:
             raise VaccineManagementException("name surname is not valid")
         return name_surname
 
