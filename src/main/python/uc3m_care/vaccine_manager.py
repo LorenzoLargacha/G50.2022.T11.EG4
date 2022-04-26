@@ -58,7 +58,7 @@ class VaccineManager:
         return True
 
     @staticmethod
-    def save_fast(data):
+    def save_fast(data: dict) -> None:
         """Method for saving the patients store"""
         patients_store = JSON_FILES_PATH + "store_patient.json"
         with open(patients_store, "r+", encoding="utf-8", newline="") as file:
