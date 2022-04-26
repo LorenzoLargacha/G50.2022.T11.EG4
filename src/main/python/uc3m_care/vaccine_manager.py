@@ -92,12 +92,13 @@ class VaccineManager:
 
 
     #pylint: disable=too-many-arguments
-    def request_vaccination_id (self, patient_id,
-                                name_surname,
-                                registration_type,
-                                phone_number,
-                                age):
+    def request_vaccination_id (self, patient_id: str,
+                                name_surname: str,
+                                registration_type: str,
+                                phone_number: str,
+                                age: str) -> str:
         """Register the patinent into the patients file"""
+
         #self.validate_registration_type(registration_type)
         #self.validate_name_surname(name_surname)
         #self.validate_phone_number(phone_number)
