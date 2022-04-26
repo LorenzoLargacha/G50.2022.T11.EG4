@@ -115,8 +115,9 @@ class VaccineManager:
         return my_patient.patient_sys_id
 
 
-    def get_vaccine_date(self, input_file):
+    def get_vaccine_date(self, input_file: any) -> str:
         """Gets an appoinment for a registered patient"""
+
         try:
             with open(input_file, "r", encoding="utf-8", newline="") as file:
                 data = json.load(file)
