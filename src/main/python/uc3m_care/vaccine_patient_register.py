@@ -92,9 +92,9 @@ class VaccinePatientRegister:
         return patient_id
 
     def validate_registration_type(self, registration_type):
-        myregex = re.compile(r"(Regular|Family)")
-        res = myregex.fullmatch(registration_type)
-        if not res:
+        registration_type_pattern = re.compile(r"(Regular|Family)")
+        result = registration_type_pattern.fullmatch(registration_type)
+        if not result:
             raise VaccineManagementException("Registration type is nor valid")
         return registration_type
 
