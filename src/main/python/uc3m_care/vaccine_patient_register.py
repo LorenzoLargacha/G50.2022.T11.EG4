@@ -10,7 +10,7 @@ from .vaccine_management_exception import VaccineManagementException
 class VaccinePatientRegister:
     """Class representing the register of the patient in the system"""
     #pylint: disable=too-many-arguments
-    def __init__( self, patient_id, full_name, registration_type, phone_number, age ):
+    def __init__(self, patient_id, full_name, registration_type, phone_number, age):
         self.__patient_id = self.validate_guid(patient_id)
         self.__full_name = self.validate_name_surname(full_name)
         self.__registration_type = self.validate_registration_type(registration_type)
@@ -19,43 +19,42 @@ class VaccinePatientRegister:
         justnow = datetime.utcnow()
         self.__time_stamp = datetime.timestamp(justnow)
         #self.__time_stamp = 1645542405.232003
-        self.__patient_sys_id =  hashlib.md5(self.__str__().encode()).hexdigest()
+        self.__patient_sys_id = hashlib.md5(self.__str__().encode()).hexdigest()
 
     def __str__(self):
         return "VaccinePatientRegister:" + json.dumps(self.__dict__)
 
     @property
-    def full_name( self ):
+    def full_name(self):
         """Property representing the name and the surname of
         the person who request the registration"""
         return self.__full_name
-
     @full_name.setter
-    def full_name( self, value ):
+    def full_name(self, value):
         self.__full_name = value
 
     @property
-    def vaccine_type( self ):
+    def vaccine_type(self):
         """Property representing the type vaccine"""
         return self.__registration_type
     @vaccine_type.setter
-    def vaccine_type( self, value ):
+    def vaccine_type(self, value):
         self.__registration_type = value
 
     @property
-    def phone_number( self ):
+    def phone_number(self):
         """Property representing the requester's phone number"""
         return self.__phone_number
     @phone_number.setter
-    def phone_number( self, value ):
+    def phone_number(self, value):
         self.__phone_number = value
 
     @property
-    def patient_id( self ):
+    def patient_id(self):
         """Property representing the requester's UUID"""
         return self.__patient_id
     @patient_id.setter
-    def patient_id( self, value ):
+    def patient_id(self, value):
         self.__patient_id = value
 
     @property
@@ -64,12 +63,12 @@ class VaccinePatientRegister:
         return self.__time_stamp
 
     @property
-    def patient_system_id( self ):
+    def patient_system_id(self):
         """Returns the md5 signature"""
         return self.__patient_sys_id
 
     @property
-    def patient_age( self ):
+    def patient_age(self):
         """Returns the patient's age"""
         return self.__age
 
@@ -82,14 +81,14 @@ class VaccinePatientRegister:
         "Method for validating uuid  v4"
         try:
             my_uuid = uuid.UUID(patient_id)
-            myregex = re.compile(r"^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]" +
+            uuid_pattern = re.compile(r"^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]" +
                                  "{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$",
                                  re.IGNORECASE)
-            res = myregex.fullmatch(my_uuid.__str__())
-            if not res:
-                raise VaccineManagementException ("UUID invalid")
+            result = uuid_pattern.fullmatch(my_uuid.__str__())
+            if not result:
+                raise VaccineManagementException("UUID invalid")
         except ValueError as val_er:
-            raise VaccineManagementException ("Id received is not a UUID") from val_er
+            raise VaccineManagementException("Id received is not a UUID") from val_er
         return patient_id
 
     def validate_registration_type(self, registration_type):
