@@ -182,10 +182,10 @@ class VaccineManager:
         try:
             with open(file_store_date, "r", encoding="utf-8", newline="") as file:
                 data_list = json.load(file)
-        except json.JSONDecodeError as ex:
-            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from ex
-        except FileNotFoundError as ex:
-            raise VaccineManagementException("Store_date not found") from ex
+        except json.JSONDecodeError as exception:
+            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
+        except FileNotFoundError as exception:
+            raise VaccineManagementException("Store_date not found") from exception
         #search this date_signature
         found = False
         for item in data_list:
@@ -195,8 +195,8 @@ class VaccineManager:
         if not found:
             raise VaccineManagementException("date_signature is not found")
 
-        today= datetime.today().date()
-        date_patient= datetime.fromtimestamp(date_time).date()
+        today = datetime.today().date()
+        date_patient = datetime.fromtimestamp(date_time).date()
         if date_patient != today:
             raise VaccineManagementException("Today is not the date")
 
@@ -205,11 +205,11 @@ class VaccineManager:
         try:
             with open(file_store_vaccine, "r", encoding="utf-8", newline="") as file:
                 data_list = json.load(file)
-        except FileNotFoundError as ex:
+        except FileNotFoundError as exception:
             # file is not found , so  init my data_list
             data_list = []
-        except json.JSONDecodeError as ex:
-            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from ex
+        except json.JSONDecodeError as exception:
+            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
 
             # append the date
         data_list.append(date_signature.__str__())
@@ -217,6 +217,6 @@ class VaccineManager:
         try:
             with open(file_store_vaccine, "w", encoding="utf-8", newline="") as file:
                 json.dump(data_list, file, indent=2)
-        except FileNotFoundError as ex:
-            raise VaccineManagementException("Wrong file or file path") from ex
+        except FileNotFoundError as exception:
+            raise VaccineManagementException("Wrong file or file path") from exception
         return True
