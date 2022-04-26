@@ -31,7 +31,7 @@ class VaccinePatientRegister:
         return self.__full_name
     @full_name.setter
     def full_name(self, value: str) -> None:
-        self.__full_name = value
+        self.__full_name = self.validate_name_surname(value)
 
     @property
     def vaccine_type(self) -> str:
@@ -39,7 +39,7 @@ class VaccinePatientRegister:
         return self.__registration_type
     @vaccine_type.setter
     def vaccine_type(self, value: str) -> None:
-        self.__registration_type = value
+        self.__registration_type = self.validate_registration_type(value)
 
     @property
     def phone_number(self) -> str:
@@ -47,7 +47,7 @@ class VaccinePatientRegister:
         return self.__phone_number
     @phone_number.setter
     def phone_number(self, value: str) -> None:
-        self.__phone_number = value
+        self.__phone_number = self.validate_phone_number(value)
 
     @property
     def patient_id(self) -> str:
@@ -55,7 +55,7 @@ class VaccinePatientRegister:
         return self.__patient_id
     @patient_id.setter
     def patient_id(self, value: str) -> None:
-        self.__patient_id = value
+        self.__patient_id = self.validate_guid(value)
 
     @property
     def time_stamp(self) -> float:
