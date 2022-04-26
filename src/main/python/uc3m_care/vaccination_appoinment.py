@@ -6,7 +6,7 @@ import hashlib
 class VaccinationAppoinment():
     """Class representing an appoinment  for the vaccination of a patient"""
 
-    def __init__( self, guid, patient_sys_id, patient_phone_number, days ):
+    def __init__(self, guid: str, patient_sys_id: str, patient_phone_number: str, days: int) -> None:
         self.__alg = "SHA-256"
         self.__type = "DS"
         self.__patient_id = guid
