@@ -30,12 +30,11 @@ class VaccinationAppoinment():
                ",vaccinationtiondate:" + self.__appoinment_date.__str__() + "}"
 
     @property
-    def patient_id( self ):
+    def patient_id(self):
         """Property that represents the guid of the patient"""
         return self.__patient_id
-
     @patient_id.setter
-    def patient_id( self, value ):
+    def patient_id(self, value):
         self.__patient_id = value
 
     @property
