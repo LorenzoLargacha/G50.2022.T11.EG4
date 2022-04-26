@@ -24,8 +24,8 @@ class VaccineManager:
             raise VaccineManagementException("date_signature format is not valid")
 
     @staticmethod
-    def save_store( data ):
-        """Medthod for savint the patients store"""
+    def save_store(data):
+        """Medthod for saving the patients store"""
         file_store = JSON_FILES_PATH + "store_patient.json"
         #first read the file
         try:
@@ -78,8 +78,8 @@ class VaccineManager:
         except FileNotFoundError:
             # file is not found , so  init my data_list
             data_list = []
-        except json.JSONDecodeError as ex:
-            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from ex
+        except json.JSONDecodeError as exception:
+            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
 
         #append the date
         data_list.append(date.__dict__)
@@ -87,8 +87,8 @@ class VaccineManager:
         try:
             with open(file_store_date, "w", encoding="utf-8", newline="") as file:
                 json.dump(data_list, file, indent=2)
-        except FileNotFoundError as ex:
-            raise VaccineManagementException("Wrong file or file path") from ex
+        except FileNotFoundError as exception:
+            raise VaccineManagementException("Wrong file or file path") from exception
 
 
     #pylint: disable=too-many-arguments
