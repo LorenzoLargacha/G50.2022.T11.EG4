@@ -174,7 +174,7 @@ class VaccineManager:
 
         return my_sign.date_signature
 
-    def register_vaccine_patient(self, date_signature):
+    def register_vaccine_patient(self, date_signature: str) -> True:
         """Register the vaccination of the patient"""
         self.validate_date_signature(date_signature)
 
