@@ -6,6 +6,7 @@ import json
 from datetime import datetime
 
 from .vaccine_management_exception import VaccineManagementException
+from .attribute_registration_type import RegistrationType
 
 class VaccinePatientRegister:
     """Class representing the register of the patient in the system"""
@@ -13,7 +14,7 @@ class VaccinePatientRegister:
     def __init__(self, patient_id: str, full_name: str, registration_type: str, phone_number: str, age: str) -> None:
         self.__patient_id = self.validate_guid(patient_id)
         self.__full_name = self.validate_name_surname(full_name)
-        self.__registration_type = self.validate_registration_type(registration_type)
+        self.__registration_type = RegistrationType(registration_type).value
         self.__phone_number = self.validate_phone_number(phone_number)
         self.__age = self.validate_age(age)
         justnow = datetime.utcnow()
@@ -39,7 +40,7 @@ class VaccinePatientRegister:
         return self.__registration_type
     @vaccine_type.setter
     def vaccine_type(self, value: str) -> None:
-        self.__registration_type = self.validate_registration_type(value)
+        self.__registration_type = RegistrationType(value).value
 
     @property
     def phone_number(self) -> str:
@@ -90,13 +91,6 @@ class VaccinePatientRegister:
         except ValueError as val_er:
             raise VaccineManagementException("Id received is not a UUID") from val_er
         return patient_id
-
-    def validate_registration_type(self, registration_type: str) -> str:
-        registration_type_pattern = re.compile(r"(Regular|Family)")
-        result = registration_type_pattern.fullmatch(registration_type)
-        if not result:
-            raise VaccineManagementException("Registration type is nor valid")
-        return registration_type
 
     def validate_name_surname(self, name_surname: str) -> str:
         name_surname_pattern = re.compile(r"^(?=^.{1,30}$)(([a-zA-Z]+\s)+[a-zA-Z]+)$")
