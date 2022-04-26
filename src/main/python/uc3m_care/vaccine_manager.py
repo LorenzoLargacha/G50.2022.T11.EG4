@@ -34,8 +34,8 @@ class VaccineManager:
         except FileNotFoundError:
             # file is not found , so  init my data_list
             data_list = []
-        except json.JSONDecodeError as ex:
-            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from ex
+        except json.JSONDecodeError as exception:
+            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
 
         found = False
         for item in data_list:
@@ -50,8 +50,8 @@ class VaccineManager:
         try:
             with open(file_store, "w", encoding="utf-8", newline="") as file:
                 json.dump(data_list, file, indent=2)
-        except FileNotFoundError as ex:
-            raise VaccineManagementException("Wrong file or file path") from ex
+        except FileNotFoundError as exception:
+            raise VaccineManagementException("Wrong file or file path") from exception
 
         if found is True:
             raise VaccineManagementException("patien_id is registered in store_patient")
