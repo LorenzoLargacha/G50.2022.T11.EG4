@@ -24,7 +24,7 @@ class VaccineManager:
             raise VaccineManagementException("date_signature format is not valid")
 
     @staticmethod
-    def save_store(data):
+    def save_store(data: VaccinePatientRegister) -> True:
         """Medthod for saving the patients store"""
         file_store = JSON_FILES_PATH + "store_patient.json"
         #first read the file
