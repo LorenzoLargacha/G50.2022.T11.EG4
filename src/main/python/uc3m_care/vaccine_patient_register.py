@@ -107,7 +107,7 @@ class VaccinePatientRegister:
 
     def validate_age(self, age):
         if age.isnumeric():
-            if (int(age) < 6 or int(age) > 125):
+            if int(age) < 6 or int(age) > 125:
                 raise VaccineManagementException("age is not valid")
         else:
             raise VaccineManagementException("age is not valid")
@@ -115,9 +115,9 @@ class VaccinePatientRegister:
 
     @staticmethod
     def validate_phone_number(phone_number):
-        myregex = re.compile(r"^(\+)[0-9]{11}")
-        res = myregex.fullmatch(phone_number)
-        if not res:
+        phone_number_pattern = re.compile(r"^(\+)[0-9]{11}")
+        result = phone_number_pattern.fullmatch(phone_number)
+        if not result:
             raise VaccineManagementException("phone number is not valid")
         return phone_number
 
