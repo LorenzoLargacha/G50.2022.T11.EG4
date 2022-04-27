@@ -1,6 +1,5 @@
 """Module """
 import datetime
-import re
 import json
 from datetime import datetime
 from freezegun import freeze_time
@@ -9,8 +8,10 @@ from .vaccine_management_exception import VaccineManagementException
 from .vaccination_appoinment import VaccinationAppoinment
 from .vaccine_manager_config import JSON_FILES_PATH
 
+from .attribute_system_id import SystemId
 from .attribute_phone_number import PhoneNumber
 from .attribute_date_signature import DateSignature
+
 
 class VaccineManager:
     """Class for providing the methods for managing the vaccination process"""
@@ -84,15 +85,13 @@ class VaccineManager:
         except FileNotFoundError as exception:
             raise VaccineManagementException("Wrong file or file path") from exception
 
-
     #pylint: disable=too-many-arguments
-    def request_vaccination_id (self, patient_id: str,
-                                name_surname: str,
-                                registration_type: str,
-                                phone_number: str,
-                                age: str) -> str:
+    def request_vaccination_id(self, patient_id: str,
+                               name_surname: str,
+                               registration_type: str,
+                               phone_number: str,
+                               age: str) -> str:
         """Register the patinent into the patients file"""
-
         #self.validate_registration_type(registration_type)
         #self.validate_name_surname(name_surname)
         #self.validate_phone_number(phone_number)
@@ -121,12 +120,9 @@ class VaccineManager:
         except json.JSONDecodeError as exception:
             raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
 
-        #check all the information
+        # check all the information
         try:
-            patient_system_id_pattern = re.compile(r"[0-9a-fA-F]{32}$")
-            result = patient_system_id_pattern.fullmatch(data["PatientSystemID"])
-            if not result:
-                raise VaccineManagementException("patient system id is not valid")
+            SystemId(data["PatientSystemID"])
         except KeyError as exception:
             raise VaccineManagementException("Bad label patient_id") from exception
 
@@ -163,18 +159,18 @@ class VaccineManager:
 
         my_sign = VaccinationAppoinment(guid, data["PatientSystemID"], data["ContactPhoneNumber"], 10)
 
-        #save the date in store_date.json
-
+        # save the date in store_date.json
         self.save_store_date(my_sign)
 
         return my_sign.date_signature
+
 
     def register_vaccine_patient(self, date_signature: str) -> True:
         """Register the vaccination of the patient"""
         #self.validate_date_signature(date_signature)
         DateSignature(date_signature)
 
-        #check if this date is in store_date
+        # check if this date is in store_date
         file_store_date = JSON_FILES_PATH + "store_date.json"
         # first read the file
         try:
