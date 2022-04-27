@@ -6,13 +6,14 @@ import json
 from datetime import datetime
 
 from .vaccine_management_exception import VaccineManagementException
+from .attribute_uuid import Uuid
 from .attribute_registration_type import RegistrationType
 
 class VaccinePatientRegister:
     """Class representing the register of the patient in the system"""
     #pylint: disable=too-many-arguments
     def __init__(self, patient_id: str, full_name: str, registration_type: str, phone_number: str, age: str) -> None:
-        self.__patient_id = self.validate_guid(patient_id)
+        self.__patient_id = Uuid(patient_id).value
         self.__full_name = self.validate_name_surname(full_name)
         self.__registration_type = RegistrationType(registration_type).value
         self.__phone_number = self.validate_phone_number(phone_number)
@@ -56,7 +57,7 @@ class VaccinePatientRegister:
         return self.__patient_id
     @patient_id.setter
     def patient_id(self, value: str) -> None:
-        self.__patient_id = self.validate_guid(value)
+        self.__patient_id = Uuid(value).value
 
     @property
     def time_stamp(self) -> float:
@@ -77,20 +78,6 @@ class VaccinePatientRegister:
     def patient_sys_id(self) -> str:
         """Property representing the md5 generated"""
         return self.__patient_sys_id
-
-    def validate_guid(self, patient_id: str) -> str:
-        "Method for validating uuid  v4"
-        try:
-            my_uuid = uuid.UUID(patient_id)
-            uuid_pattern = re.compile(r"^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]" +
-                                 "{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$",
-                                 re.IGNORECASE)
-            result = uuid_pattern.fullmatch(my_uuid.__str__())
-            if not result:
-                raise VaccineManagementException("UUID invalid")
-        except ValueError as val_er:
-            raise VaccineManagementException("Id received is not a UUID") from val_er
-        return patient_id
 
     def validate_name_surname(self, name_surname: str) -> str:
         name_surname_pattern = re.compile(r"^(?=^.{1,30}$)(([a-zA-Z]+\s)+[a-zA-Z]+)$")

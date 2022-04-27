@@ -1,4 +1,3 @@
-import re
 from .attribute import Attribute
 
 class RegistrationType(Attribute):
