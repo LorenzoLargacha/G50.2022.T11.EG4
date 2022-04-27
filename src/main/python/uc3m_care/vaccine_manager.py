@@ -134,23 +134,9 @@ class VaccineManager:
         if date_patient != today:
             raise VaccineManagementException("Today is not the date")
 
-        file_store_vaccine = JSON_FILES_PATH + "store_vaccine.json"
+        #self.save_vaccine(date_signature)
+        my_store_vaccine = JsonStore()
+        my_store_vaccine.save_vaccine(date_signature)
 
-        try:
-            with open(file_store_vaccine, "r", encoding="utf-8", newline="") as file:
-                data_list = json.load(file)
-        except FileNotFoundError as exception:
-            # file is not found , so  init my data_list
-            data_list = []
-        except json.JSONDecodeError as exception:
-            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
-
-            # append the date
-        data_list.append(date_signature.__str__())
-        data_list.append(datetime.utcnow().__str__())
-        try:
-            with open(file_store_vaccine, "w", encoding="utf-8", newline="") as file:
-                json.dump(data_list, file, indent=2)
-        except FileNotFoundError as exception:
-            raise VaccineManagementException("Wrong file or file path") from exception
         return True
+
