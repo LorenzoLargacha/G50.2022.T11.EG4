@@ -10,6 +10,8 @@ from .vaccine_management_exception import VaccineManagementException
 from .vaccination_appoinment import VaccinationAppoinment
 from .vaccine_manager_config import JSON_FILES_PATH
 
+from .attribute_phone_number import PhoneNumber
+
 class VaccineManager:
     """Class for providing the methods for managing the vaccination process"""
     def __init__(self):
@@ -137,7 +139,8 @@ class VaccineManager:
             raise VaccineManagementException("Bad label patient_id") from exception
 
         try:
-            VaccinePatientRegister.validate_phone_number(data["ContactPhoneNumber"])
+            #VaccinePatientRegister.validate_phone_number(data["ContactPhoneNumber"])
+            PhoneNumber(data["ContactPhoneNumber"])
         except KeyError as exception:
             raise VaccineManagementException("Bad label contact phone") from exception
         file_store = JSON_FILES_PATH + "store_patient.json"

@@ -8,6 +8,7 @@ from .vaccine_management_exception import VaccineManagementException
 from .attribute_uuid import Uuid
 from .attribute_name_surname import NameSurname
 from .attribute_registration_type import RegistrationType
+from .attribute_phone_number import PhoneNumber
 from .attribute_age import Age
 
 class VaccinePatientRegister:
@@ -17,7 +18,7 @@ class VaccinePatientRegister:
         self.__patient_id = Uuid(patient_id).value
         self.__full_name = NameSurname(full_name).value
         self.__registration_type = RegistrationType(registration_type).value
-        self.__phone_number = self.validate_phone_number(phone_number)
+        self.__phone_number = PhoneNumber(phone_number).value
         self.__age = Age(age).value
         justnow = datetime.utcnow()
         self.__time_stamp = datetime.timestamp(justnow)
@@ -50,7 +51,7 @@ class VaccinePatientRegister:
         return self.__phone_number
     @phone_number.setter
     def phone_number(self, value: str) -> None:
-        self.__phone_number = self.validate_phone_number(value)
+        self.__phone_number = PhoneNumber(value).value
 
     @property
     def patient_id(self) -> str:
