@@ -1,5 +1,6 @@
 import json
 from .vaccine_patient_register import VaccinePatientRegister
+from .vaccination_appoinment import VaccinationAppoinment
 from .vaccine_management_exception import VaccineManagementException
 from .vaccine_manager_config import JSON_FILES_PATH
 
@@ -51,3 +52,26 @@ class JsonStore():
             if item["_VaccinePatientRegister__patient_sys_id"] == data["PatientSystemID"]:
                 return item
         return None
+
+    @staticmethod
+    def save_store_date(date: VaccinationAppoinment) -> None:
+        """Saves the appoinment into a file"""
+        file_store_date = JSON_FILES_PATH + "store_date.json"
+        # first read the file
+        try:
+            with open(file_store_date, "r", encoding="utf-8", newline="") as file:
+                data_list = json.load(file)
+        except FileNotFoundError:
+            # file is not found , so  init my data_list
+            data_list = []
+        except json.JSONDecodeError as exception:
+            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
+
+        # append the date
+        data_list.append(date.__dict__)
+
+        try:
+            with open(file_store_date, "w", encoding="utf-8", newline="") as file:
+                json.dump(data_list, file, indent=2)
+        except FileNotFoundError as exception:
+            raise VaccineManagementException("Wrong file or file path") from exception

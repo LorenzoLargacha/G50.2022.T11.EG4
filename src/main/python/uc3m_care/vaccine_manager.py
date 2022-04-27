@@ -30,29 +30,6 @@ class VaccineManager:
             file.seek(0)
             json.dump(data_list, file, indent=2)
 
-    @staticmethod
-    def save_store_date(date: VaccinationAppoinment) -> None:
-        """Saves the appoinment into a file"""
-        file_store_date = JSON_FILES_PATH + "store_date.json"
-        # first read the file
-        try:
-            with open(file_store_date, "r", encoding="utf-8", newline="") as file:
-                data_list = json.load(file)
-        except FileNotFoundError:
-            # file is not found , so  init my data_list
-            data_list = []
-        except json.JSONDecodeError as exception:
-            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
-
-        #append the date
-        data_list.append(date.__dict__)
-
-        try:
-            with open(file_store_date, "w", encoding="utf-8", newline="") as file:
-                json.dump(data_list, file, indent=2)
-        except FileNotFoundError as exception:
-            raise VaccineManagementException("Wrong file or file path") from exception
-
     #pylint: disable=too-many-arguments
     def request_vaccination_id(self, patient_id: str,
                                name_surname: str,
@@ -96,7 +73,9 @@ class VaccineManager:
         my_sign = VaccinationAppoinment(guid, data["PatientSystemID"], data["ContactPhoneNumber"], 10)
 
         # save the date in store_date.json
-        self.save_store_date(my_sign)
+        #self.save_store_date(my_sign)
+        my_store_date = JsonStore()
+        my_store_date.save_store_date(my_sign)
 
         return my_sign.date_signature
 
