@@ -3,7 +3,7 @@ from .attribute import Attribute
 from .vaccine_management_exception import VaccineManagementException
 
 class Uuid(Attribute):
-    def __init__(self, attr_value):
+    def __init__(self, attr_value: str) -> None:
         self._validation_pattern = r"^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]" \
                                    r"{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
         self._error_message = "UUID invalid"
