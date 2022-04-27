@@ -85,7 +85,9 @@ class VaccineManager:
         SystemId(data["PatientSystemID"])
         PhoneNumber(data["ContactPhoneNumber"])
 
-        item_found = self.find_patient_store(data)
+        #item_found = self.find_patient_store(data)
+        my_store = JsonStore()
+        item_found = my_store.find_patient_store(data)
 
         if item_found is None:
             raise VaccineManagementException("patient_system_id not found")
@@ -108,16 +110,6 @@ class VaccineManager:
         except json.JSONDecodeError as exception:
             raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
         return data
-
-    def find_patient_store(self, data: dict) -> VaccinePatientRegister:
-        file_store = JSON_FILES_PATH + "store_patient.json"
-        with open(file_store, "r", encoding="utf-8", newline="") as file:
-            data_list = json.load(file)
-        found = False
-        for item in data_list:
-            if item["_VaccinePatientRegister__patient_sys_id"] == data["PatientSystemID"]:
-                return item
-        return None
 
     def check_patient_sys_id(self, data: dict, item: VaccinePatientRegister) -> str:
         # retrieve the patients data

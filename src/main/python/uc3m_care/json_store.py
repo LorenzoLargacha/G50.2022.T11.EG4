@@ -40,3 +40,14 @@ class JsonStore():
         if found is True:
             raise VaccineManagementException("patien_id is registered in store_patient")
         return True
+
+    @staticmethod
+    def find_patient_store(data: dict) -> VaccinePatientRegister:
+        file_store = JSON_FILES_PATH + "store_patient.json"
+        with open(file_store, "r", encoding="utf-8", newline="") as file:
+            data_list = json.load(file)
+        found = False
+        for item in data_list:
+            if item["_VaccinePatientRegister__patient_sys_id"] == data["PatientSystemID"]:
+                return item
+        return None
