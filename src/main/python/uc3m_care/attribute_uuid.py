@@ -10,7 +10,7 @@ class Uuid(Attribute):
         self._attr_value = self._validate(attr_value)
 
     def _validate(self, attr_value: str) -> str:
-        "Method for validating uuid  v4"
+        """ Método para sobreescribir _validate de la clase Attribute """
         try:
             my_uuid = uuid.UUID(attr_value)
             # Llamamos al _validate de la clase abstracta

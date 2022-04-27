@@ -1,12 +1,12 @@
 """MODULE: access_request. Contains the access request class"""
 import hashlib
-import uuid
 import re
 import json
 from datetime import datetime
 
 from .vaccine_management_exception import VaccineManagementException
 from .attribute_uuid import Uuid
+from .attribute_name_surname import NameSurname
 from .attribute_registration_type import RegistrationType
 
 class VaccinePatientRegister:
@@ -14,7 +14,7 @@ class VaccinePatientRegister:
     #pylint: disable=too-many-arguments
     def __init__(self, patient_id: str, full_name: str, registration_type: str, phone_number: str, age: str) -> None:
         self.__patient_id = Uuid(patient_id).value
-        self.__full_name = self.validate_name_surname(full_name)
+        self.__full_name = NameSurname(full_name).value
         self.__registration_type = RegistrationType(registration_type).value
         self.__phone_number = self.validate_phone_number(phone_number)
         self.__age = self.validate_age(age)
@@ -33,7 +33,7 @@ class VaccinePatientRegister:
         return self.__full_name
     @full_name.setter
     def full_name(self, value: str) -> None:
-        self.__full_name = self.validate_name_surname(value)
+        self.__full_name = NameSurname(value).value
 
     @property
     def vaccine_type(self) -> str:
@@ -78,13 +78,6 @@ class VaccinePatientRegister:
     def patient_sys_id(self) -> str:
         """Property representing the md5 generated"""
         return self.__patient_sys_id
-
-    def validate_name_surname(self, name_surname: str) -> str:
-        name_surname_pattern = re.compile(r"^(?=^.{1,30}$)(([a-zA-Z]+\s)+[a-zA-Z]+)$")
-        result = name_surname_pattern.fullmatch(name_surname)
-        if not result:
-            raise VaccineManagementException("name surname is not valid")
-        return name_surname
 
     def validate_age(self, age: str) -> str:
         if age.isnumeric():
