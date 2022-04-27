@@ -107,3 +107,25 @@ class JsonStore():
             if item["_VaccinePatientRegister__patient_sys_id"] == data["PatientSystemID"]:
                 return item
         return None
+
+    @staticmethod
+    def find_date_signature(date_signature: str) -> float:
+        # check if this date is in store_date
+        file_store_date = JSON_FILES_PATH + "store_date.json"
+        # first read the file
+        try:
+            with open(file_store_date, "r", encoding="utf-8", newline="") as file:
+                data_list = json.load(file)
+        except json.JSONDecodeError as exception:
+            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
+        except FileNotFoundError as exception:
+            raise VaccineManagementException("Store_date not found") from exception
+        # search this date_signature
+        found = False
+        for item in data_list:
+            if item["_VaccinationAppoinment__date_signature"] == date_signature:
+                found = True
+                date_time = item["_VaccinationAppoinment__appoinment_date"]
+        if not found:
+            raise VaccineManagementException("date_signature is not found")
+        return date_time

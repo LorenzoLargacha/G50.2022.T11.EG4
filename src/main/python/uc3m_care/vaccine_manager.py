@@ -110,24 +110,9 @@ class VaccineManager:
         #self.validate_date_signature(date_signature)
         DateSignature(date_signature)
 
-        # check if this date is in store_date
-        file_store_date = JSON_FILES_PATH + "store_date.json"
-        # first read the file
-        try:
-            with open(file_store_date, "r", encoding="utf-8", newline="") as file:
-                data_list = json.load(file)
-        except json.JSONDecodeError as exception:
-            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
-        except FileNotFoundError as exception:
-            raise VaccineManagementException("Store_date not found") from exception
-        #search this date_signature
-        found = False
-        for item in data_list:
-            if item["_VaccinationAppoinment__date_signature"] == date_signature:
-                found = True
-                date_time = item["_VaccinationAppoinment__appoinment_date"]
-        if not found:
-            raise VaccineManagementException("date_signature is not found")
+        #date_time = self.find_date_signature(date_signature)
+        my_store_date = JsonStore()
+        date_time = my_store_date.find_date_signature(date_signature)
 
         today = datetime.today().date()
         date_patient = datetime.fromtimestamp(date_time).date()
@@ -139,4 +124,3 @@ class VaccineManager:
         my_store_vaccine.save_vaccine(date_signature)
 
         return True
-
