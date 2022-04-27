@@ -81,16 +81,19 @@ class JsonStore():
         data_list.append(datetime.utcnow().__str__())
         JsonStore.save(data_list, file_store_vaccine)
 
-    @staticmethod
-    def find_patient_store(data: dict) -> VaccinePatientRegister:
+    def find_store(self, data_list: list, item_to_find: str, key: str) -> any:
+        for item in data_list:
+            if item[key] == item_to_find:
+                return item
+        return None
+
+    def find_patient_store(self, data: dict) -> VaccinePatientRegister:
         file_store = JSON_FILES_PATH + "store_patient.json"
         with open(file_store, "r", encoding="utf-8", newline="") as file:
             data_list = json.load(file)
-        found = False
-        for item in data_list:
-            if item["_VaccinePatientRegister__patient_sys_id"] == data["PatientSystemID"]:
-                return item
-        return None
+        item_found = self.find_store(data_list, data["PatientSystemID"], "_VaccinePatientRegister__patient_sys_id")
+
+        return item_found
 
     @staticmethod
     def find_date_signature(date_signature: str) -> float:
