@@ -8,6 +8,7 @@ from .vaccine_management_exception import VaccineManagementException
 from .attribute_uuid import Uuid
 from .attribute_name_surname import NameSurname
 from .attribute_registration_type import RegistrationType
+from .attribute_age import Age
 
 class VaccinePatientRegister:
     """Class representing the register of the patient in the system"""
@@ -17,7 +18,7 @@ class VaccinePatientRegister:
         self.__full_name = NameSurname(full_name).value
         self.__registration_type = RegistrationType(registration_type).value
         self.__phone_number = self.validate_phone_number(phone_number)
-        self.__age = self.validate_age(age)
+        self.__age = Age(age).value
         justnow = datetime.utcnow()
         self.__time_stamp = datetime.timestamp(justnow)
         #self.__time_stamp = 1645542405.232003
@@ -78,14 +79,6 @@ class VaccinePatientRegister:
     def patient_sys_id(self) -> str:
         """Property representing the md5 generated"""
         return self.__patient_sys_id
-
-    def validate_age(self, age: str) -> str:
-        if age.isnumeric():
-            if int(age) < 6 or int(age) > 125:
-                raise VaccineManagementException("age is not valid")
-        else:
-            raise VaccineManagementException("age is not valid")
-        return age
 
     @staticmethod
     def validate_phone_number(phone_number: str) -> str:
