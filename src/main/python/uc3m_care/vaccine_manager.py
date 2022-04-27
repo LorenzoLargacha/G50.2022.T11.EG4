@@ -8,7 +8,6 @@ from .json_store import JsonStore
 from .vaccine_patient_register import VaccinePatientRegister
 from .vaccine_management_exception import VaccineManagementException
 from .vaccination_appoinment import VaccinationAppoinment
-from .vaccine_manager_config import JSON_FILES_PATH
 
 from .attribute_system_id import SystemId
 from .attribute_phone_number import PhoneNumber
