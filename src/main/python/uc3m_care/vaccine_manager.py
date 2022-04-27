@@ -63,7 +63,7 @@ class VaccineManager:
             json.dump(data_list, file, indent=2)
 
     @staticmethod
-    def save_store_date(date: dict) -> None:
+    def save_store_date(date: VaccinationAppoinment) -> None:
         """Saves the appoinment into a file"""
         file_store_date = JSON_FILES_PATH + "store_date.json"
         # first read the file
