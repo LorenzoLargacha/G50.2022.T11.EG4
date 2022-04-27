@@ -43,15 +43,14 @@ class JsonStore():
         return True
 
     @staticmethod
-    def find_patient_store(data: dict) -> VaccinePatientRegister:
-        file_store = JSON_FILES_PATH + "store_patient.json"
-        with open(file_store, "r", encoding="utf-8", newline="") as file:
+    def save_fast(data: dict) -> None:
+        """Method for saving the patients store"""
+        patients_store = JSON_FILES_PATH + "store_patient.json"
+        with open(patients_store, "r+", encoding="utf-8", newline="") as file:
             data_list = json.load(file)
-        found = False
-        for item in data_list:
-            if item["_VaccinePatientRegister__patient_sys_id"] == data["PatientSystemID"]:
-                return item
-        return None
+            data_list.append(data.__dict__)
+            file.seek(0)
+            json.dump(data_list, file, indent=2)
 
     @staticmethod
     def save_store_date(date: VaccinationAppoinment) -> None:
@@ -75,3 +74,14 @@ class JsonStore():
                 json.dump(data_list, file, indent=2)
         except FileNotFoundError as exception:
             raise VaccineManagementException("Wrong file or file path") from exception
+
+    @staticmethod
+    def find_patient_store(data: dict) -> VaccinePatientRegister:
+        file_store = JSON_FILES_PATH + "store_patient.json"
+        with open(file_store, "r", encoding="utf-8", newline="") as file:
+            data_list = json.load(file)
+        found = False
+        for item in data_list:
+            if item["_VaccinePatientRegister__patient_sys_id"] == data["PatientSystemID"]:
+                return item
+        return None

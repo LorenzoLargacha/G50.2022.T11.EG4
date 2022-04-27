@@ -20,16 +20,6 @@ class VaccineManager:
     def __init__(self):
         pass
 
-    @staticmethod
-    def save_fast(data: dict) -> None:
-        """Method for saving the patients store"""
-        patients_store = JSON_FILES_PATH + "store_patient.json"
-        with open(patients_store, "r+", encoding="utf-8", newline="") as file:
-            data_list = json.load(file)
-            data_list.append(data.__dict__)
-            file.seek(0)
-            json.dump(data_list, file, indent=2)
-
     #pylint: disable=too-many-arguments
     def request_vaccination_id(self, patient_id: str,
                                name_surname: str,
