@@ -1,6 +1,5 @@
 """Module """
 import datetime
-import uuid
 import re
 import json
 from datetime import datetime
@@ -11,19 +10,12 @@ from .vaccination_appoinment import VaccinationAppoinment
 from .vaccine_manager_config import JSON_FILES_PATH
 
 from .attribute_phone_number import PhoneNumber
+from .attribute_date_signature import DateSignature
 
 class VaccineManager:
     """Class for providing the methods for managing the vaccination process"""
     def __init__(self):
         pass
-
-    @staticmethod
-    def validate_date_signature(date_signature: str) -> None:
-        """Method for validating sha256 values"""
-        date_signature_pattern = re.compile(r"[0-9a-fA-F]{64}$")
-        result = date_signature_pattern.fullmatch(date_signature)
-        if not result:
-            raise VaccineManagementException("date_signature format is not valid")
 
     @staticmethod
     def save_store(data: VaccinePatientRegister) -> True:
@@ -179,7 +171,8 @@ class VaccineManager:
 
     def register_vaccine_patient(self, date_signature: str) -> True:
         """Register the vaccination of the patient"""
-        self.validate_date_signature(date_signature)
+        #self.validate_date_signature(date_signature)
+        DateSignature(date_signature)
 
         #check if this date is in store_date
         file_store_date = JSON_FILES_PATH + "store_date.json"

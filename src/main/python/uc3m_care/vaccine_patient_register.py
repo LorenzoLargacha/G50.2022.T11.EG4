@@ -1,10 +1,8 @@
 """MODULE: access_request. Contains the access request class"""
 import hashlib
-import re
 import json
 from datetime import datetime
 
-from .vaccine_management_exception import VaccineManagementException
 from .attribute_uuid import Uuid
 from .attribute_name_surname import NameSurname
 from .attribute_registration_type import RegistrationType
@@ -80,12 +78,3 @@ class VaccinePatientRegister:
     def patient_sys_id(self) -> str:
         """Property representing the md5 generated"""
         return self.__patient_sys_id
-
-    @staticmethod
-    def validate_phone_number(phone_number: str) -> str:
-        phone_number_pattern = re.compile(r"^(\+)[0-9]{11}")
-        result = phone_number_pattern.fullmatch(phone_number)
-        if not result:
-            raise VaccineManagementException("phone number is not valid")
-        return phone_number
-
