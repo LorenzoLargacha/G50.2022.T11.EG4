@@ -9,19 +9,20 @@ class JsonStore():
     def __init__(self):
         pass
 
-    @staticmethod
-    def save_store(data: VaccinePatientRegister) -> True:
+    def save_store(self, data: VaccinePatientRegister) -> True:
         """Medthod for saving the patients store"""
         patient_store = JSON_FILES_PATH + "store_patient.json"
         # first read the file
         data_list = JsonStore.load_store(patient_store)
 
         found = False
-        for item in data_list:
-            if item["_VaccinePatientRegister__patient_id"] == data.patient_id:
-                if (item["_VaccinePatientRegister__registration_type"] == data.vaccine_type) and \
-                        (item["_VaccinePatientRegister__full_name"] == data.full_name):
-                    found = True
+        # Buscamos el patient_id
+        item = self.find_store(data_list, data.patient_id, "_VaccinePatientRegister__patient_id")
+        # Si lo encontramos, buscamos el registration_type y el full_name
+        if item is not None:
+            if (item["_VaccinePatientRegister__registration_type"] == data.vaccine_type) and \
+                    (item["_VaccinePatientRegister__full_name"] == data.full_name):
+                found = True
 
         if found is False:
             data_list.append(data.__dict__)
