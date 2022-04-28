@@ -3,6 +3,7 @@ from datetime import datetime
 from .vaccine_patient_register import VaccinePatientRegister
 from .vaccination_appoinment import VaccinationAppoinment
 from .vaccine_management_exception import VaccineManagementException
+from .vaccine_log import VaccineLog
 from .vaccine_manager_config import JSON_FILES_PATH
 
 class JsonStore():
@@ -53,6 +54,12 @@ class JsonStore():
             raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
         return data_list
 
+    def find_store(self, data_list: list, item_to_find: str, key: str) -> any:
+        for item in data_list:
+            if item[key] == item_to_find:
+                return item
+        return None
+
     @staticmethod
     def save_store_date(date: VaccinationAppoinment) -> None:
         """Saves the appoinment into a file"""
@@ -77,16 +84,14 @@ class JsonStore():
         except json.JSONDecodeError as exception:
             raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
 
-            # append the date
-        data_list.append(date_signature.__str__())
-        data_list.append(datetime.utcnow().__str__())
-        JsonStore.save(data_list, file_store_vaccine)
+        # append the date
+        my_vaccine_log = VaccineLog(date_signature)
+        data_list.append(my_vaccine_log.__dict__)
 
-    def find_store(self, data_list: list, item_to_find: str, key: str) -> any:
-        for item in data_list:
-            if item[key] == item_to_find:
-                return item
-        return None
+        #data_list.append(date_signature.__str__())
+        #data_list.append(datetime.utcnow().__str__())
+        my_save = JsonStore
+        my_save.save(data_list, file_store_vaccine)
 
     def find_patient_store(self, data: dict) -> VaccinePatientRegister:
         file_store = JSON_FILES_PATH + "store_patient.json"
