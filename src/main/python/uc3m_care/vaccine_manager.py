@@ -5,6 +5,7 @@ from datetime import datetime
 from freezegun import freeze_time
 
 from .json_store import JsonStore
+from .patient_json_store import PatientJsonStore
 from .vaccine_log import VaccineLog
 from .vaccine_patient_register import VaccinePatientRegister
 from .vaccine_management_exception import VaccineManagementException
@@ -37,7 +38,7 @@ class VaccineManager:
                                             registration_type,
                                             phone_number,
                                             age)
-        my_store = JsonStore()
+        my_store = PatientJsonStore()
         my_store.save_store(my_patient)
 
         return my_patient.patient_sys_id
@@ -53,7 +54,7 @@ class VaccineManager:
         PhoneNumber(data["ContactPhoneNumber"])
 
         #item_found = self.find_patient_store(data)
-        my_store = JsonStore()
+        my_store = PatientJsonStore()
         item_found = my_store.find_patient_store(data)
 
         if item_found is None:
