@@ -11,10 +11,10 @@ class JsonStore():
         pass
 
     def save_store(self, data: VaccinePatientRegister) -> True:
-        """Medthod for saving the patients store"""
+        """Method for saving the patients store"""
         patient_store = JSON_FILES_PATH + "store_patient.json"
         # first read the file
-        data_list = JsonStore.load_store(patient_store)
+        data_list = self.load_store(patient_store)
 
         found = False
         # Buscamos el patient_id
@@ -28,22 +28,20 @@ class JsonStore():
         if found is False:
             data_list.append(data.__dict__)
 
-        JsonStore.save(data_list, patient_store)
+        self.save(data_list, patient_store)
 
         if found is True:
             raise VaccineManagementException("patien_id is registered in store_patient")
         return True
 
-    @staticmethod
-    def save(data_list, patient_store):
+    def save(self, data_list, patient_store):
         try:
             with open(patient_store, "w", encoding="utf-8", newline="") as file:
                 json.dump(data_list, file, indent=2)
         except FileNotFoundError as exception:
             raise VaccineManagementException("Wrong file or file path") from exception
 
-    @staticmethod
-    def load_store(file_store: str) -> list:
+    def load_store(self,file_store: str) -> list:
         try:
             with open(file_store, "r", encoding="utf-8", newline="") as file:
                 data_list = json.load(file)
@@ -60,20 +58,18 @@ class JsonStore():
                 return item
         return None
 
-    @staticmethod
-    def save_store_date(date: VaccinationAppoinment) -> None:
+    def save_store_date(self,date: VaccinationAppoinment) -> None:
         """Saves the appoinment into a file"""
         file_store_date = JSON_FILES_PATH + "store_date.json"
         # first read the file
-        data_list = JsonStore.load_store(file_store_date)
+        data_list = self.load_store(file_store_date)
 
         # append the date
         data_list.append(date.__dict__)
 
-        JsonStore.save(data_list, file_store_date)
+        self.save(data_list, file_store_date)
 
-    @staticmethod
-    def save_vaccine(date_signature: str) -> None:
+    def save_vaccine(self, date_signature: str) -> None:
         file_store_vaccine = JSON_FILES_PATH + "store_vaccine.json"
         try:
             with open(file_store_vaccine, "r", encoding="utf-8", newline="") as file:
@@ -90,8 +86,10 @@ class JsonStore():
 
         #data_list.append(date_signature.__str__())
         #data_list.append(datetime.utcnow().__str__())
-        my_save = JsonStore
-        my_save.save(data_list, file_store_vaccine)
+        #my_save = JsonStore
+        #my_save.save(data_list, file_store_vaccine)
+
+        self.save(data_list, file_store_vaccine)
 
     def find_patient_store(self, data: dict) -> VaccinePatientRegister:
         file_store = JSON_FILES_PATH + "store_patient.json"
@@ -101,8 +99,7 @@ class JsonStore():
 
         return item_found
 
-    @staticmethod
-    def find_date_signature(date_signature: str) -> float:
+    def find_date_signature(self,date_signature: str) -> float:
         # check if this date is in store_date
         file_store_date = JSON_FILES_PATH + "store_date.json"
         # first read the file
