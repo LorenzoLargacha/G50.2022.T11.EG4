@@ -5,6 +5,7 @@ from datetime import datetime
 from freezegun import freeze_time
 
 from .json_store import JsonStore
+from .vaccine_log import VaccineLog
 from .vaccine_patient_register import VaccinePatientRegister
 from .vaccine_management_exception import VaccineManagementException
 from .vaccination_appoinment import VaccinationAppoinment
@@ -107,7 +108,10 @@ class VaccineManager:
     def register_vaccine_patient(self, date_signature: str) -> True:
         """Register the vaccination of the patient"""
         #self.validate_date_signature(date_signature)
-        DateSignature(date_signature)
+        #DateSignature(date_signature)
+
+        my_vaccine_log = VaccineLog(date_signature)
+        date_signature = my_vaccine_log.date_signature
 
         #date_time = self.find_date_signature(date_signature)
         my_store_date = JsonStore()
@@ -120,6 +124,6 @@ class VaccineManager:
 
         #self.save_vaccine(date_signature)
         my_store_vaccine = JsonStore()
-        my_store_vaccine.save_vaccine(date_signature)
+        my_store_vaccine.save_vaccine(my_vaccine_log)
 
         return True

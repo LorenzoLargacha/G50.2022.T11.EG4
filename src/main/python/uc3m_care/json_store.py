@@ -71,7 +71,7 @@ class JsonStore():
         file_store_date = JSON_FILES_PATH + "store_date.json"
         self.add_item(date, file_store_date)
 
-    def save_vaccine(self, date_signature: str) -> None:
+    def save_vaccine(self, vaccine_log) -> None:
         file_store_vaccine = JSON_FILES_PATH + "store_vaccine.json"
         try:
             with open(file_store_vaccine, "r", encoding="utf-8", newline="") as file:
@@ -83,8 +83,8 @@ class JsonStore():
             raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
 
         # append the date
-        my_vaccine_log = VaccineLog(date_signature)
-        data_list.append(my_vaccine_log.__dict__)
+        #my_vaccine_log = VaccineLog(date_signature)
+        data_list.append(vaccine_log.__dict__)
 
         #data_list.append(date_signature.__str__())
         #data_list.append(datetime.utcnow().__str__())
