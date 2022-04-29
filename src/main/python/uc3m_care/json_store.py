@@ -58,16 +58,18 @@ class JsonStore():
                 return item
         return None
 
+    def add_item(self, date, file_store_date) -> None:
+        # first read the file
+        data_list = self.load_store(file_store_date)
+        # append the date
+        data_list.append(date.__dict__)
+        #save data into file
+        self.save(data_list, file_store_date)
+
     def save_store_date(self,date: VaccinationAppoinment) -> None:
         """Saves the appoinment into a file"""
         file_store_date = JSON_FILES_PATH + "store_date.json"
-        # first read the file
-        data_list = self.load_store(file_store_date)
-
-        # append the date
-        data_list.append(date.__dict__)
-
-        self.save(data_list, file_store_date)
+        self.add_item(date, file_store_date)
 
     def save_vaccine(self, date_signature: str) -> None:
         file_store_vaccine = JSON_FILES_PATH + "store_vaccine.json"
