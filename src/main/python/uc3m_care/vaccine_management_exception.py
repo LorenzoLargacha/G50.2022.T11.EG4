@@ -1,5 +1,6 @@
 """Exception for the access_management module"""
 
+
 class VaccineManagementException(Exception):
     """Personalised exception for Vaccine Management"""
     def __init__(self, message: str) -> None:

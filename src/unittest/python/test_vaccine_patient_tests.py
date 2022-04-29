@@ -51,12 +51,12 @@ class TestVaccinePatient(TestCase):
         with open(file_store_vaccine, "r", encoding="utf-8", newline="") as file:
             data_list = json.load(file)
         #found = False
-        if "5a06c7bede3d584e934e2f5bd3861e625cb31937f9f1a5362a51fbbf38486f1c" in data_list:
-            found = True
-        #found = False
-        #for item in data_list:
-            #if item["_VaccineLog__date_signature"] == "5a06c7bede3d584e934e2f5bd3861e625cb31937f9f1a5362a51fbbf38486f1c":
-                #found = True
+        #if "5a06c7bede3d584e934e2f5bd3861e625cb31937f9f1a5362a51fbbf38486f1c" in data_list:
+            #found = True
+        found = False
+        for item in data_list:
+            if item["_VaccineLog__date_signature"] == "5a06c7bede3d584e934e2f5bd3861e625cb31937f9f1a5362a51fbbf38486f1c":
+                found = True
         self.assertTrue(found)
 
     @freeze_time("2022-04-18")

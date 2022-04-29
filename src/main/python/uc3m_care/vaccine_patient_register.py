@@ -9,6 +9,7 @@ from .attribute_registration_type import RegistrationType
 from .attribute_phone_number import PhoneNumber
 from .attribute_age import Age
 
+
 class VaccinePatientRegister:
     """Class representing the register of the patient in the system"""
     #pylint: disable=too-many-arguments

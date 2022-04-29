@@ -43,7 +43,6 @@ class VaccineManager:
 
         return my_patient.patient_sys_id
 
-
     def get_vaccine_date(self, input_file: str) -> str:
         """Gets an appoinment for a registered patient"""
 

@@ -2,8 +2,9 @@
 from datetime import datetime
 import hashlib
 
+
 #pylint: disable=too-many-instance-attributes
-class VaccinationAppoinment():
+class VaccinationAppoinment:
     """Class representing an appoinment  for the vaccination of a patient"""
 
     def __init__(self, guid: str, patient_sys_id: str, patient_phone_number: str, days: int) -> None:
