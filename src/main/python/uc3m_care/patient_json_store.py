@@ -7,6 +7,8 @@ from .vaccine_manager_config import JSON_FILES_PATH
 
 
 class PatientJsonStore(JsonStore):
+    _FILE_PATH = JSON_FILES_PATH + "store_patient.json"
+    _ID_FIELD = "_VaccinePatientRegister__patient_id"
 
     def __init__(self):
         pass
@@ -15,11 +17,11 @@ class PatientJsonStore(JsonStore):
         """Method for saving the patients store"""
         patient_store = JSON_FILES_PATH + "store_patient.json"
         # first read the file
-        data_list = self.load_store(patient_store)
+        data_list = self.load_store(self._FILE_PATH)
 
         found = False
         # Buscamos el patient_id
-        item = self.find_store(data_list, data.patient_id, "_VaccinePatientRegister__patient_id")
+        item = self.find_item(data_list, data.patient_id, self._ID_FIELD)
         # Si lo encontramos, buscamos el registration_type y el full_name
         if item is not None:
             if (item["_VaccinePatientRegister__registration_type"] == data.vaccine_type) and \
@@ -28,8 +30,8 @@ class PatientJsonStore(JsonStore):
 
         if found is False:
             data_list.append(data.__dict__)
-
-        self.save(data_list, patient_store)
+            # Solo hago save si el paciente no estaba almacenado
+            self.save(data_list, self._FILE_PATH)
 
         if found is True:
             raise VaccineManagementException("patien_id is registered in store_patient")
@@ -38,8 +40,8 @@ class PatientJsonStore(JsonStore):
 
     def find_patient_store(self, data: dict) -> VaccinePatientRegister:
         file_store = JSON_FILES_PATH + "store_patient.json"
-        with open(file_store, "r", encoding="utf-8", newline="") as file:
+        with open(self._FILE_PATH, "r", encoding="utf-8", newline="") as file:
             data_list = json.load(file)
-            item_found = self.find_store(data_list, data["PatientSystemID"], "_VaccinePatientRegister__patient_sys_id")
+            item_found = self.find_item(data_list, data["PatientSystemID"], "_VaccinePatientRegister__patient_sys_id")
 
         return item_found

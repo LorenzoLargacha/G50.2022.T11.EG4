@@ -8,6 +8,9 @@ from .vaccine_manager_config import JSON_FILES_PATH
 
 
 class JsonStore:
+    _FILE_PATH = ""
+    _ID_FIELD = ""
+
     def __init__(self):
         pass
 
@@ -29,7 +32,7 @@ class JsonStore:
             raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
         return data_list
 
-    def find_store(self, data_list: list, item_to_find: str, key: str) -> any:
+    def find_item(self, data_list: list, item_to_find: str, key: str) -> any:
         for item in data_list:
             if item[key] == item_to_find:
                 return item
@@ -43,32 +46,6 @@ class JsonStore:
         # save data into file
         self.save(data_list, file_store_date)
 
-    def save_store_date(self, date: VaccinationAppoinment) -> None:
-        """Saves the appoinment into a file"""
-        file_store_date = JSON_FILES_PATH + "store_date.json"
-        self.add_item(date, file_store_date)
-
     def save_vaccine(self, vaccine_log: VaccineLog) -> None:
         file_store_vaccine = JSON_FILES_PATH + "store_vaccine.json"
         self.add_item(vaccine_log, file_store_vaccine)
-
-    def find_date_signature(self, date_signature: str) -> float:
-        # check if this date is in store_date
-        file_store_date = JSON_FILES_PATH + "store_date.json"
-        # first read the file
-        try:
-            with open(file_store_date, "r", encoding="utf-8", newline="") as file:
-                data_list = json.load(file)
-        except json.JSONDecodeError as exception:
-            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
-        except FileNotFoundError as exception:
-            raise VaccineManagementException("Store_date not found") from exception
-        # search this date_signature
-        found = False
-        for item in data_list:
-            if item["_VaccinationAppoinment__date_signature"] == date_signature:
-                found = True
-                date_time = item["_VaccinationAppoinment__appoinment_date"]
-        if not found:
-            raise VaccineManagementException("date_signature is not found")
-        return date_time

@@ -6,6 +6,8 @@ from freezegun import freeze_time
 
 from .json_store import JsonStore
 from .patient_json_store import PatientJsonStore
+from .appointment_json_store import AppointmentJsonStore
+
 from .vaccine_log import VaccineLog
 from .vaccine_patient_register import VaccinePatientRegister
 from .vaccine_management_exception import VaccineManagementException
@@ -38,8 +40,8 @@ class VaccineManager:
                                             registration_type,
                                             phone_number,
                                             age)
-        my_store = PatientJsonStore()
-        my_store.save_store(my_patient)
+        my_store_patient = PatientJsonStore()
+        my_store_patient.save_store(my_patient)
 
         return my_patient.patient_sys_id
 
@@ -63,8 +65,7 @@ class VaccineManager:
         my_sign = VaccinationAppoinment(guid, data["PatientSystemID"], data["ContactPhoneNumber"], 10)
 
         # save the date in store_date.json
-        #self.save_store_date(my_sign)
-        my_store_date = JsonStore()
+        my_store_date = AppointmentJsonStore()
         my_store_date.save_store_date(my_sign)
 
         return my_sign.date_signature
@@ -114,7 +115,8 @@ class VaccineManager:
         date_signature = my_vaccine_log.date_signature
 
         #date_time = self.find_date_signature(date_signature)
-        my_store_date = JsonStore()
+        #my_store_date = JsonStore()
+        my_store_date = AppointmentJsonStore()
         date_time = my_store_date.find_date_signature(date_signature)
 
         today = datetime.today().date()
