@@ -1,5 +1,5 @@
 import re
-from .vaccine_management_exception import VaccineManagementException
+from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 
 class Attribute():
     def __init__(self):

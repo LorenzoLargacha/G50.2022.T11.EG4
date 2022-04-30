@@ -10,7 +10,7 @@ from uc3m_care.storage.vaccine_json_store import VaccineJsonStore
 
 from uc3m_care.data.vaccine_log import VaccineLog
 from uc3m_care.data.vaccine_patient_register import VaccinePatientRegister
-from .vaccine_management_exception import VaccineManagementException
+from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 from uc3m_care.data.vaccination_appoinment import VaccinationAppoinment
 
 from .attribute_system_id import SystemId

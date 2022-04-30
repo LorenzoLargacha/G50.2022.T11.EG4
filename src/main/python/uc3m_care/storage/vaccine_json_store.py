@@ -1,6 +1,6 @@
 from uc3m_care.storage.json_store import JsonStore
 from uc3m_care.data.vaccine_log import VaccineLog
-from uc3m_care.vaccine_management_exception import VaccineManagementException
+from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 from uc3m_care.cfg.vaccine_manager_config import JSON_FILES_PATH
 
 

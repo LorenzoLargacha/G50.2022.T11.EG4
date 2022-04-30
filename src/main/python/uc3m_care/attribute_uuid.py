@@ -1,6 +1,6 @@
 import uuid
 from .attribute import Attribute
-from .vaccine_management_exception import VaccineManagementException
+from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 
 class Uuid(Attribute):
     def __init__(self, attr_value: str) -> None:
