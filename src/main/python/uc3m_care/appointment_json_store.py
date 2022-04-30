@@ -15,12 +15,10 @@ class AppointmentJsonStore(JsonStore):
 
     def save_store_date(self, date: VaccinationAppoinment) -> None:
         """Saves the appoinment into a file"""
-        file_store_date = JSON_FILES_PATH + "store_date.json"
-        self.add_item(date, self._FILE_PATH)
+        self.add_item(date)
 
     def find_date_signature(self, date_signature: str) -> VaccinationAppoinment:
         # check if this date is in store_date
-        file_store_date = JSON_FILES_PATH + "store_date.json"
         data_list = self.check_store()
         # search this date_signature
         item = self.find_item(data_list, date_signature, self._ID_FIELD)

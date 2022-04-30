@@ -14,16 +14,16 @@ class JsonStore:
     def __init__(self):
         pass
 
-    def save_store(self, data_list: list, file_store: str) -> None:
+    def save_store(self, data_list: list) -> None:
         try:
-            with open(file_store, "w", encoding="utf-8", newline="") as file:
+            with open(self._FILE_PATH, "w", encoding="utf-8", newline="") as file:
                 json.dump(data_list, file, indent=2)
         except FileNotFoundError as exception:
             raise VaccineManagementException("Wrong file or file path") from exception
 
-    def load_store(self, file_store: str) -> list:
+    def load_store(self) -> list:
         try:
-            with open(file_store, "r", encoding="utf-8", newline="") as file:
+            with open(self._FILE_PATH, "r", encoding="utf-8", newline="") as file:
                 data_list = json.load(file)
         except FileNotFoundError:
             # file is not found , so  init my data_list
@@ -38,15 +38,10 @@ class JsonStore:
                 return item
         return None
 
-    def add_item(self, item: dict, file_store_date: str) -> None:
+    def add_item(self, item: dict) -> None:
         # first read the file
-        data_list = self.load_store(file_store_date)
+        data_list = self.load_store()
         # append the item
         data_list.append(item.__dict__)
         # save data into file
-        self.save_store(data_list, file_store_date)
-
-    """
-    def save_vaccine(self, vaccine_log: VaccineLog) -> None:
-        file_store_vaccine = JSON_FILES_PATH + "store_vaccine.json"
-        self.add_item(vaccine_log, file_store_vaccine)"""
+        self.save_store(data_list)
