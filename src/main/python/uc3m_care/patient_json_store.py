@@ -34,7 +34,7 @@ class PatientJsonStore(JsonStore):
         return True
 
     def find_patient_store(self, data: dict) -> VaccinePatientRegister:
-        with open(self._FILE_PATH, "r", encoding="utf-8", newline="") as file:
+        with open(self._FILE_PATH, "r", encoding="utf-8", newline=""):
             self._ID_FIELD = "_VaccinePatientRegister__patient_sys_id"
             item_found = self.find_item(data["PatientSystemID"])
             self._ID_FIELD = "_VaccinePatientRegister__patient_id"

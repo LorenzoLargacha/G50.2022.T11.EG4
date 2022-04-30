@@ -32,7 +32,7 @@ class JsonStore:
             raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
         return data_list
 
-    def find_item(self, item_to_find: str) -> dict:
+    def find_item(self, item_to_find: str) -> any:
         # Primero cargamos la lista
         data_list = self.load_store()
         # Luego buscamos
@@ -41,7 +41,7 @@ class JsonStore:
                 return item
         return None
 
-    def add_item(self, item: dict) -> None:
+    def add_item(self, item: object) -> None:
         # first read the file
         data_list = self.load_store()
         # append the item
