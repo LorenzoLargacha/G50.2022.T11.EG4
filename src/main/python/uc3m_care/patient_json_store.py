@@ -15,6 +15,9 @@ class PatientJsonStore(JsonStore):
 
     def save_store_patient(self, patient: VaccinePatientRegister) -> True:
         """Method for saving the patients store"""
+        if not isinstance(patient, VaccinePatientRegister):
+            raise VaccineManagementException("Invalid vaccine patient register object")
+
         found = False
         # Buscamos el patient_id
         item = self.find_item(patient.patient_id)

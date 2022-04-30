@@ -14,4 +14,6 @@ class VaccineJsonStore(JsonStore):
 
     def add_item(self, vaccine_log: VaccineLog) -> None:
         """Saves the vaccine into a file"""
+        if not isinstance(vaccine_log, VaccineLog):
+            raise VaccineManagementException("Invalid vaccine log object")
         super().add_item(vaccine_log)

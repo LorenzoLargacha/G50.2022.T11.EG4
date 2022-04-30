@@ -15,6 +15,8 @@ class AppointmentJsonStore(JsonStore):
 
     def add_item(self, date: VaccinationAppoinment) -> None:
         """Saves the appoinment into a file"""
+        if not isinstance(date, VaccinationAppoinment):
+            raise VaccineManagementException("Invalid vaccination appointment object")
         super().add_item(date)
 
     def find_date_signature(self, date_signature: str) -> VaccinationAppoinment:
