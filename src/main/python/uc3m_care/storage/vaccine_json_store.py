@@ -1,9 +1,7 @@
-import json
-
-from .json_store import JsonStore
-from .vaccine_log import VaccineLog
-from .vaccine_management_exception import VaccineManagementException
-from .vaccine_manager_config import JSON_FILES_PATH
+from uc3m_care.storage.json_store import JsonStore
+from uc3m_care.vaccine_log import VaccineLog
+from uc3m_care.vaccine_management_exception import VaccineManagementException
+from uc3m_care.vaccine_manager_config import JSON_FILES_PATH
 
 
 class VaccineJsonStore(JsonStore):

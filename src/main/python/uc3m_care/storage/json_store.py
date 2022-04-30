@@ -1,10 +1,5 @@
 import json
-from datetime import datetime
-from .vaccine_patient_register import VaccinePatientRegister
-from .vaccination_appoinment import VaccinationAppoinment
-from .vaccine_management_exception import VaccineManagementException
-from .vaccine_log import VaccineLog
-from .vaccine_manager_config import JSON_FILES_PATH
+from uc3m_care.vaccine_management_exception import VaccineManagementException
 
 
 class JsonStore:

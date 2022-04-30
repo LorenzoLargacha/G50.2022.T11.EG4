@@ -4,9 +4,9 @@ import json
 from datetime import datetime
 from freezegun import freeze_time
 
-from .patient_json_store import PatientJsonStore
-from .appointment_json_store import AppointmentJsonStore
-from .vaccine_json_store import VaccineJsonStore
+from uc3m_care.storage.patient_json_store import PatientJsonStore
+from uc3m_care.storage.appointment_json_store import AppointmentJsonStore
+from uc3m_care.storage.vaccine_json_store import VaccineJsonStore
 
 from .vaccine_log import VaccineLog
 from .vaccine_patient_register import VaccinePatientRegister
@@ -15,7 +15,6 @@ from .vaccination_appoinment import VaccinationAppoinment
 
 from .attribute_system_id import SystemId
 from .attribute_phone_number import PhoneNumber
-from .attribute_date_signature import DateSignature
 
 
 class VaccineManager:
