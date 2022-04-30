@@ -1,9 +1,11 @@
 """Contains the class Vaccination Appoinment"""
 from datetime import datetime
 import hashlib
+import json
+
+from uc3m_care import VaccineManagementException
 
 
-#pylint: disable=too-many-instance-attributes
 class VaccinationAppoinment:
     """Class representing an appoinment  for the vaccination of a patient"""
 
@@ -76,3 +78,14 @@ class VaccinationAppoinment:
     def date_signature(self) -> str:
         """Returns the SHA256 """
         return self.__date_signature
+
+    def read_json_file(self, input_file: str) -> str:
+        try:
+            with open(input_file, "r", encoding="utf-8", newline="") as file:
+                data = json.load(file)
+        except FileNotFoundError as exception:
+            # file is not found
+            raise VaccineManagementException("File is not found") from exception
+        except json.JSONDecodeError as exception:
+            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
+        return data

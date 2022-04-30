@@ -59,6 +59,7 @@ class VaccineManager:
 
         if item_found is None:
             raise VaccineManagementException("patient_system_id not found")
+
         guid = self.check_patient_sys_id(data, item_found)
 
         my_sign = VaccinationAppoinment(guid, data["PatientSystemID"], data["ContactPhoneNumber"], 10)
@@ -68,17 +69,6 @@ class VaccineManager:
         my_store_date.add_item(my_sign)
 
         return my_sign.date_signature
-
-    def read_json_file(self, input_file: str) -> str:
-        try:
-            with open(input_file, "r", encoding="utf-8", newline="") as file:
-                data = json.load(file)
-        except FileNotFoundError as exception:
-            # file is not found
-            raise VaccineManagementException("File is not found") from exception
-        except json.JSONDecodeError as exception:
-            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
-        return data
 
     def check_patient_sys_id(self, data: dict, item: VaccinePatientRegister) -> str:
         # retrieve the patients data
@@ -96,6 +86,17 @@ class VaccineManager:
         if patient.patient_system_id != data["PatientSystemID"]:
             raise VaccineManagementException("Patient's data have been manipulated")
         return guid
+
+    def read_json_file(self, input_file: str) -> str:
+        try:
+            with open(input_file, "r", encoding="utf-8", newline="") as file:
+                data = json.load(file)
+        except FileNotFoundError as exception:
+            # file is not found
+            raise VaccineManagementException("File is not found") from exception
+        except json.JSONDecodeError as exception:
+            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
+        return data
 
     def validate_key_labels(self, label_list):
         """ checking all the levels of the input json file"""
@@ -133,3 +134,6 @@ class VaccineManager:
         my_store_vaccine.add_item(my_vaccine_log)
 
         return True
+
+
+
