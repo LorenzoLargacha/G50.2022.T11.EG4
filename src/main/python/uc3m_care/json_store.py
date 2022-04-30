@@ -46,6 +46,7 @@ class JsonStore:
         # save data into file
         self.save_store(data_list, file_store_date)
 
+    """
     def save_vaccine(self, vaccine_log: VaccineLog) -> None:
         file_store_vaccine = JSON_FILES_PATH + "store_vaccine.json"
-        self.add_item(vaccine_log, file_store_vaccine)
+        self.add_item(vaccine_log, file_store_vaccine)"""

@@ -4,9 +4,9 @@ import json
 from datetime import datetime
 from freezegun import freeze_time
 
-from .json_store import JsonStore
 from .patient_json_store import PatientJsonStore
 from .appointment_json_store import AppointmentJsonStore
+from .vaccine_json_store import VaccineJsonStore
 
 from .vaccine_log import VaccineLog
 from .vaccine_patient_register import VaccinePatientRegister
@@ -130,7 +130,7 @@ class VaccineManager:
             raise VaccineManagementException("Today is not the date")
 
         #self.save_vaccine(date_signature)
-        my_store_vaccine = JsonStore()
+        my_store_vaccine = VaccineJsonStore()
         my_store_vaccine.save_vaccine(my_vaccine_log)
 
         return True
