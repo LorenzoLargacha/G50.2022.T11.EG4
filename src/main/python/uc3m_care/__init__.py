@@ -4,5 +4,5 @@ from uc3m_care.data.vaccine_patient_register import VaccinePatientRegister
 from .vaccine_manager import VaccineManager
 from .vaccine_management_exception import VaccineManagementException
 from uc3m_care.data.vaccination_appoinment import VaccinationAppoinment
-from .vaccine_manager_config import JSON_FILES_PATH
-from .vaccine_manager_config import JSON_FILES_RF2_PATH
+from uc3m_care.cfg.vaccine_manager_config import JSON_FILES_PATH
+from uc3m_care.cfg.vaccine_manager_config import JSON_FILES_RF2_PATH
