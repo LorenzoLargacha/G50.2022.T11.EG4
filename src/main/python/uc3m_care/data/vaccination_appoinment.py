@@ -9,7 +9,10 @@ from uc3m_care import VaccineManagementException
 class VaccinationAppoinment:
     """Class representing an appoinment  for the vaccination of a patient"""
 
-    def __init__(self, guid: str, patient_sys_id: str, patient_phone_number: str, days: int) -> None:
+    def __init__(self, input_file) -> None:
+        self.__json_content = self.read_json_file(input_file)
+        self.validate_key_labels(self.__json_content)
+
         self.__alg = "SHA-256"
         self.__type = "DS"
         self.__patient_id = guid
@@ -89,3 +92,11 @@ class VaccinationAppoinment:
         except json.JSONDecodeError as exception:
             raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
         return data
+
+    def validate_key_labels(self, label_list):
+        """ checking all the levels of the input json file"""
+        if not ("PatientSystemID" in label_list.keys()):
+            raise VaccineManagementException("Bad label patient_id")
+        if not ("ContactPhoneNumber" in label_list.keys()):
+            raise VaccineManagementException("Bad label contact phone")
+        return label_list

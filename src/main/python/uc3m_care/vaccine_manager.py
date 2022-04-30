@@ -87,17 +87,6 @@ class VaccineManager:
             raise VaccineManagementException("Patient's data have been manipulated")
         return guid
 
-    def read_json_file(self, input_file: str) -> str:
-        try:
-            with open(input_file, "r", encoding="utf-8", newline="") as file:
-                data = json.load(file)
-        except FileNotFoundError as exception:
-            # file is not found
-            raise VaccineManagementException("File is not found") from exception
-        except json.JSONDecodeError as exception:
-            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
-        return data
-
     def validate_key_labels(self, label_list):
         """ checking all the levels of the input json file"""
         if not ("PatientSystemID" in label_list.keys()):
