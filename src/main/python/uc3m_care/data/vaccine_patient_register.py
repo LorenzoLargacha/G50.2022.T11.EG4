@@ -3,11 +3,11 @@ import hashlib
 import json
 from datetime import datetime
 
-from uc3m_care.attribute_uuid import Uuid
-from uc3m_care.attribute_name_surname import NameSurname
-from uc3m_care.attribute_registration_type import RegistrationType
-from uc3m_care.attribute_phone_number import PhoneNumber
-from uc3m_care.attribute_age import Age
+from uc3m_care.parser.attribute_uuid import Uuid
+from uc3m_care.parser.attribute_name_surname import NameSurname
+from uc3m_care.parser.attribute_registration_type import RegistrationType
+from uc3m_care.parser.attribute_phone_number import PhoneNumber
+from uc3m_care.parser.attribute_age import Age
 
 
 class VaccinePatientRegister:

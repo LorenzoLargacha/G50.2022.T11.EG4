@@ -1,4 +1,5 @@
-from .attribute import Attribute
+from uc3m_care.parser.attribute import Attribute
+
 
 class RegistrationType(Attribute):
     def __init__(self, attr_value: str) -> None:

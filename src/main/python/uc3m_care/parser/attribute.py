@@ -1,6 +1,7 @@
 import re
 from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 
+
 class Attribute():
     def __init__(self):
         self._attr_value = ""

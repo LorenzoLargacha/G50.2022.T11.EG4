@@ -13,8 +13,8 @@ from uc3m_care.data.vaccine_patient_register import VaccinePatientRegister
 from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 from uc3m_care.data.vaccination_appoinment import VaccinationAppoinment
 
-from .attribute_system_id import SystemId
-from .attribute_phone_number import PhoneNumber
+from uc3m_care.parser.attribute_system_id import SystemId
+from uc3m_care.parser.attribute_phone_number import PhoneNumber
 
 
 class VaccineManager:
