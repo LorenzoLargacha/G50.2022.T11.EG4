@@ -13,24 +13,20 @@ class PatientJsonStore(JsonStore):
     def __init__(self):
         pass
 
-    def save_store_patient(self, data: VaccinePatientRegister) -> True:
+    def save_store_patient(self, patient: VaccinePatientRegister) -> True:
         """Method for saving the patients store"""
-        # first read the file
-        data_list = self.load_store()
-
         found = False
         # Buscamos el patient_id
-        item = self.find_item(data_list, data.patient_id, self._ID_FIELD)
+        item = self.find_item(patient.patient_id)
         # Si lo encontramos, buscamos el registration_type y el full_name
         if item is not None:
-            if (item["_VaccinePatientRegister__registration_type"] == data.vaccine_type) and \
-                    (item["_VaccinePatientRegister__full_name"] == data.full_name):
+            if (item["_VaccinePatientRegister__registration_type"] == patient.vaccine_type) and \
+                    (item["_VaccinePatientRegister__full_name"] == patient.full_name):
                 found = True
 
         if found is False:
-            data_list.append(data.__dict__)
             # Solo hago save si el paciente no estaba almacenado
-            self.save_store(data_list)
+            self.add_item(patient)
 
         if found is True:
             raise VaccineManagementException("patien_id is registered in store_patient")
@@ -39,7 +35,8 @@ class PatientJsonStore(JsonStore):
 
     def find_patient_store(self, data: dict) -> VaccinePatientRegister:
         with open(self._FILE_PATH, "r", encoding="utf-8", newline="") as file:
-            data_list = json.load(file)
-            item_found = self.find_item(data_list, data["PatientSystemID"], "_VaccinePatientRegister__patient_sys_id")
+            self._ID_FIELD = "_VaccinePatientRegister__patient_sys_id"
+            item_found = self.find_item(data["PatientSystemID"])
+            self._ID_FIELD = "_VaccinePatientRegister__patient_id"
 
         return item_found

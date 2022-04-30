@@ -19,9 +19,9 @@ class AppointmentJsonStore(JsonStore):
 
     def find_date_signature(self, date_signature: str) -> VaccinationAppoinment:
         # check if this date is in store_date
-        data_list = self.check_store()
+        self.check_store()
         # search this date_signature
-        item = self.find_item(data_list, date_signature, self._ID_FIELD)
+        item = self.find_item(date_signature)
 
         return item
 

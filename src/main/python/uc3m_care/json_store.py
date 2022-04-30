@@ -32,9 +32,12 @@ class JsonStore:
             raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
         return data_list
 
-    def find_item(self, data_list: list, item_to_find: str, key: str) -> dict:
+    def find_item(self, item_to_find: str) -> dict:
+        # Primero cargamos la lista
+        data_list = self.load_store()
+        # Luego buscamos
         for item in data_list:
-            if item[key] == item_to_find:
+            if item[self._ID_FIELD] == item_to_find:
                 return item
         return None
 
