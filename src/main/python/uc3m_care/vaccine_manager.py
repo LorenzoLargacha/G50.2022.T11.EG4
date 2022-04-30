@@ -66,7 +66,7 @@ class VaccineManager:
 
         # save the date in store_date.json
         my_store_date = AppointmentJsonStore()
-        my_store_date.save_store_date(my_sign)
+        my_store_date.add_item(my_sign)
 
         return my_sign.date_signature
 
@@ -131,6 +131,6 @@ class VaccineManager:
 
         #self.save_vaccine(date_signature)
         my_store_vaccine = VaccineJsonStore()
-        my_store_vaccine.save_vaccine(my_vaccine_log)
+        my_store_vaccine.add_item(my_vaccine_log)
 
         return True

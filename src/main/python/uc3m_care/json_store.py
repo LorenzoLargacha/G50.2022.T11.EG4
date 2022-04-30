@@ -8,7 +8,9 @@ from .vaccine_manager_config import JSON_FILES_PATH
 
 
 class JsonStore:
+    # Ruta fichero store
     _FILE_PATH = ""
+    # Key a buscar
     _ID_FIELD = ""
 
     def __init__(self):

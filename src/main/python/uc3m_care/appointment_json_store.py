@@ -13,9 +13,9 @@ class AppointmentJsonStore(JsonStore):
     def __init__(self):
         pass
 
-    def save_store_date(self, date: VaccinationAppoinment) -> None:
+    def add_item(self, date: VaccinationAppoinment) -> None:
         """Saves the appoinment into a file"""
-        self.add_item(date)
+        super().add_item(date)
 
     def find_date_signature(self, date_signature: str) -> VaccinationAppoinment:
         # check if this date is in store_date

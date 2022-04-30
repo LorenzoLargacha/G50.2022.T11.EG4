@@ -12,5 +12,6 @@ class VaccineJsonStore(JsonStore):
     def __init__(self):
         pass
 
-    def save_vaccine(self, vaccine_log: VaccineLog) -> None:
-        self.add_item(vaccine_log)
+    def add_item(self, vaccine_log: VaccineLog) -> None:
+        """Saves the vaccine into a file"""
+        super().add_item(vaccine_log)
