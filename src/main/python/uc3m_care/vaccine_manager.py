@@ -41,7 +41,7 @@ class VaccineManager:
                                             phone_number,
                                             age)
         my_store_patient = PatientJsonStore()
-        my_store_patient.save_store(my_patient)
+        my_store_patient.save_store_patient(my_patient)
 
         return my_patient.patient_sys_id
 
@@ -117,7 +117,12 @@ class VaccineManager:
         #date_time = self.find_date_signature(date_signature)
         #my_store_date = JsonStore()
         my_store_date = AppointmentJsonStore()
-        date_time = my_store_date.find_date_signature(date_signature)
+        item = my_store_date.find_date_signature(date_signature)
+
+        if item is None:
+            raise VaccineManagementException("date_signature is not found")
+
+        date_time = item["_VaccinationAppoinment__appoinment_date"]
 
         today = datetime.today().date()
         date_patient = datetime.fromtimestamp(date_time).date()

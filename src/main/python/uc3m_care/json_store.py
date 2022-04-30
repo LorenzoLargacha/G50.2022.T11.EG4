@@ -14,7 +14,7 @@ class JsonStore:
     def __init__(self):
         pass
 
-    def save(self, data_list: list, file_store: str) -> None:
+    def save_store(self, data_list: list, file_store: str) -> None:
         try:
             with open(file_store, "w", encoding="utf-8", newline="") as file:
                 json.dump(data_list, file, indent=2)
@@ -32,7 +32,7 @@ class JsonStore:
             raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
         return data_list
 
-    def find_item(self, data_list: list, item_to_find: str, key: str) -> any:
+    def find_item(self, data_list: list, item_to_find: str, key: str) -> dict:
         for item in data_list:
             if item[key] == item_to_find:
                 return item
@@ -44,7 +44,7 @@ class JsonStore:
         # append the item
         data_list.append(item.__dict__)
         # save data into file
-        self.save(data_list, file_store_date)
+        self.save_store(data_list, file_store_date)
 
     def save_vaccine(self, vaccine_log: VaccineLog) -> None:
         file_store_vaccine = JSON_FILES_PATH + "store_vaccine.json"
