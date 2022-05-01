@@ -14,7 +14,7 @@ from uc3m_care.exception.vaccine_management_exception import VaccineManagementEx
 from uc3m_care.data.vaccination_appoinment import VaccinationAppoinment
 
 from uc3m_care.parser.attribute_system_id import SystemId
-from uc3m_care.parser.attribute_phone_number import PhoneNumber
+from uc3m_care.data.attribute.attribute_phone_number import PhoneNumber
 
 
 class VaccineManager:

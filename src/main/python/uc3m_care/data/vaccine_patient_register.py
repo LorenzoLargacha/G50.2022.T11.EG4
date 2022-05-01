@@ -8,7 +8,7 @@ from uc3m_care.cfg.vaccine_manager_config import JSON_FILES_PATH
 from uc3m_care.parser.attribute_uuid import Uuid
 from uc3m_care.data.attribute.attribute_name_surname import NameSurname
 from uc3m_care.parser.attribute_registration_type import RegistrationType
-from uc3m_care.parser.attribute_phone_number import PhoneNumber
+from uc3m_care.data.attribute.attribute_phone_number import PhoneNumber
 from uc3m_care.data.attribute.attribute_age import Age
 #from uc3m_care.storage.patient_json_store import PatientJsonStore
 from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
