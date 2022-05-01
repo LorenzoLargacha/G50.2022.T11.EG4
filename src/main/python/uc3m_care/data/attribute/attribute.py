@@ -2,7 +2,7 @@ import re
 from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 
 
-class Attribute():
+class Attribute:
     def __init__(self):
         self._attr_value = ""
         self._validation_pattern = r""
