@@ -7,14 +7,14 @@ from uc3m_care.exception.vaccine_management_exception import VaccineManagementEx
 from uc3m_care.parser.attribute_phone_number import PhoneNumber
 from uc3m_care.parser.attribute_system_id import SystemId
 from uc3m_care.data.vaccine_patient_register import VaccinePatientRegister
+from uc3m_care.parser.json_parser import JsonParser
 
 
 class VaccinationAppoinment:
     """Class representing an appoinment  for the vaccination of a patient"""
 
     def __init__(self, input_file) -> None:
-        self.__json_content = self.read_json_file(input_file)
-        self.validate_key_labels(self.__json_content)
+        self.__json_content = JsonParser(input_file).json_content
         self.__alg = "SHA-256"
         self.__type = "DS"
         self.__patient_sys_id = SystemId(self.__json_content["PatientSystemID"]).value
@@ -85,23 +85,5 @@ class VaccinationAppoinment:
         """Returns the SHA256 """
         return self.__date_signature
 
-    def read_json_file(self, input_file: str) -> dict:
-        try:
-            with open(input_file, "r", encoding="utf-8", newline="") as file:
-                data = json.load(file)
-        except FileNotFoundError as exception:
-            # file is not found
-            raise VaccineManagementException("File is not found") from exception
-        except json.JSONDecodeError as exception:
-            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
-        return data
-
-    def validate_key_labels(self, label_list: dict) -> dict:
-        """ checking all the levels of the input json file"""
-        if not ("PatientSystemID" in label_list.keys()):
-            raise VaccineManagementException("Bad label patient_id")
-        if not ("ContactPhoneNumber" in label_list.keys()):
-            raise VaccineManagementException("Bad label contact phone")
-        return label_list
 
 
