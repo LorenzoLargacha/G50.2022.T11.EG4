@@ -2,11 +2,15 @@ import json
 
 from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 
+
 class JsonParser:
     _key_list = []
     _key_error_message = []
 
-    def __init__(self, input_file):
+    __ERROR_MESSAGE_FILE_NOT_FOUND = "File is not found"
+    __ERROR_MESSAGE_JSON_DECODE = "JSON Decode Error - Wrong JSON Format"
+
+    def __init__(self, input_file: str) -> None:
         self._json_content = self._read_json_file(input_file)
         self._validate_key_labels()
 
@@ -16,9 +20,9 @@ class JsonParser:
                 data = json.load(file)
         except FileNotFoundError as exception:
             # file is not found
-            raise VaccineManagementException("File is not found") from exception
+            raise VaccineManagementException(self.__ERROR_MESSAGE_FILE_NOT_FOUND) from exception
         except json.JSONDecodeError as exception:
-            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
+            raise VaccineManagementException(self.__ERROR_MESSAGE_JSON_DECODE) from exception
         return data
 
     def _validate_key_labels(self) -> None:
@@ -34,5 +38,5 @@ class JsonParser:
             #raise VaccineManagementException("Bad label contact phone")
 
     @property
-    def json_content(self):
+    def json_content(self) -> dict:
         return self._json_content
