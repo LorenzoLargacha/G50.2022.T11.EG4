@@ -8,6 +8,9 @@ class JsonStore:
     # Key a buscar
     _ID_FIELD = ""
 
+    __ERROR_MESSAGE_FILE_NOT_FOUND = "Wrong file or file path"
+    __ERROR_MESSAGE_JSON_DECODE = "JSON Decode Error - Wrong JSON Format"
+
     def __init__(self):
         pass
 
@@ -16,7 +19,7 @@ class JsonStore:
             with open(self._FILE_PATH, "w", encoding="utf-8", newline="") as file:
                 json.dump(data_list, file, indent=2)
         except FileNotFoundError as exception:
-            raise VaccineManagementException("Wrong file or file path") from exception
+            raise VaccineManagementException(self.__ERROR_MESSAGE_FILE_NOT_FOUND) from exception
 
     def load_store(self) -> list:
         try:
@@ -26,7 +29,7 @@ class JsonStore:
             # file is not found , so  init my data_list
             data_list = []
         except json.JSONDecodeError as exception:
-            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
+            raise VaccineManagementException(self.__ERROR_MESSAGE_JSON_DECODE) from exception
         return data_list
 
     def find_item(self, item_to_find: str) -> any:
