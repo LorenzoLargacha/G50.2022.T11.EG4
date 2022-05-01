@@ -76,7 +76,7 @@ class VaccineManager:
         #DateSignature(date_signature)
 
         my_vaccine_log = VaccineLog(date_signature)
-        date_signature = my_vaccine_log.date_signature
+        #date_signature = my_vaccine_log.date_signature
 
         #date_time = self.find_date_signature(date_signature)
         #my_store_date = JsonStore()

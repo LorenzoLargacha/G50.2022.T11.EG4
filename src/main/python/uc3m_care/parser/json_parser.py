@@ -5,6 +5,7 @@ from uc3m_care.exception.vaccine_management_exception import VaccineManagementEx
 class JsonParser:
     _key_list = []
     _key_error_message = []
+
     def __init__(self, input_file):
         self._json_content = self._read_json_file(input_file)
         self._validate_key_labels()
