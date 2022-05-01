@@ -80,17 +80,18 @@ class VaccineManager:
 
         #date_time = self.find_date_signature(date_signature)
         #my_store_date = JsonStore()
-        item = self.check_date_signature(my_vaccine_log.date_signature)
-
-        date_time = item["_VaccinationAppoinment__appoinment_date"]
-
-        self.is_the_date(date_time)
+        self.check_date(my_vaccine_log)
 
         #self.save_vaccine(date_signature)
         my_store_vaccine = VaccineJsonStore()
         my_store_vaccine.add_item(my_vaccine_log)
 
         return True
+
+    def check_date(self, my_vaccine_log):
+        item = self.check_date_signature(my_vaccine_log.date_signature)
+        date_time = item["_VaccinationAppoinment__appoinment_date"]
+        self.is_the_date(date_time)
 
     def check_date_signature(self, date_signature):
         # check if this date is in store_date
