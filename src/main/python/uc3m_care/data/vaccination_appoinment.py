@@ -12,13 +12,15 @@ from uc3m_care.parser.appointment_json_parser import AppointmentJsonParser
 
 class VaccinationAppoinment:
     """Class representing an appoinment  for the vaccination of a patient"""
+    KEY_LABEL_PATIENT_SYSTEM_ID = "PatientSystemID"
+    KEY_LABEL_PHONE_NUMBER = "ContactPhoneNumber"
 
-    def __init__(self, input_file) -> None:
+    def __init__(self, input_file: str) -> None:
         self.__json_content = AppointmentJsonParser(input_file).json_content
         self.__alg = "SHA-256"
         self.__type = "DS"
-        self.__patient_sys_id = SystemId(self.__json_content["PatientSystemID"]).value
-        self.__phone_number = PhoneNumber(self.__json_content["ContactPhoneNumber"]).value
+        self.__patient_sys_id = SystemId(self.__json_content[self.KEY_LABEL_PATIENT_SYSTEM_ID]).value
+        self.__phone_number = PhoneNumber(self.__json_content[self.KEY_LABEL_PHONE_NUMBER]).value
         self.__patient_id = VaccinePatientRegister.check_patient_sys_id(self.__patient_sys_id)
         justnow = datetime.utcnow()
         self.__issued_at = datetime.timestamp(justnow)
@@ -84,6 +86,3 @@ class VaccinationAppoinment:
     def date_signature(self) -> str:
         """Returns the SHA256 """
         return self.__date_signature
-
-
-

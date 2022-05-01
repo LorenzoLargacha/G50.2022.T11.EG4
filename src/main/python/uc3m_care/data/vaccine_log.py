@@ -5,7 +5,7 @@ from uc3m_care.storage.appointment_json_store import AppointmentJsonStore
 from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 
 class VaccineLog:
-    def __init__(self, date_signature) -> None:
+    def __init__(self, date_signature: str) -> None:
         self.__date_signature = DateSignature(date_signature).value
         justnow = datetime.utcnow()
         self.__time_stamp = datetime.timestamp(justnow)

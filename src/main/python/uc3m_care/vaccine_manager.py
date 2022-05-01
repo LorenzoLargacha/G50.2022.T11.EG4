@@ -84,6 +84,3 @@ class VaccineManager:
         my_store_vaccine.add_item(my_vaccine_log)
 
         return True
-
-
-
