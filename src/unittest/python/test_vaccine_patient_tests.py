@@ -5,7 +5,8 @@ import hashlib
 import json
 from freezegun import freeze_time
 from uc3m_care import VaccineManager
-from uc3m_care import VaccineManagementException
+#from uc3m_care import VaccineManagementException
+from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 from uc3m_care import JSON_FILES_PATH
 from uc3m_care import JSON_FILES_RF2_PATH
 
