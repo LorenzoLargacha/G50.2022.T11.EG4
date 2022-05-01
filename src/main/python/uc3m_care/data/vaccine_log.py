@@ -1,6 +1,6 @@
 """ Module """
 from datetime import datetime
-from uc3m_care.parser.attribute_date_signature import DateSignature
+from uc3m_care.data.attribute.attribute_date_signature import DateSignature
 
 
 class VaccineLog:
