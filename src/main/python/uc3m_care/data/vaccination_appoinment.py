@@ -3,8 +3,13 @@ from datetime import datetime
 import hashlib
 import json
 
-from uc3m_care import VaccineManagementException
-
+from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
+from uc3m_care.parser.attribute_phone_number import PhoneNumber
+from uc3m_care.parser.attribute_system_id import SystemId
+from uc3m_care.parser.attribute_uuid import Uuid
+from uc3m_care.storage.patient_json_store import PatientJsonStore
+from freezegun import freeze_time
+from uc3m_care.data.vaccine_patient_register import VaccinePatientRegister
 
 class VaccinationAppoinment:
     """Class representing an appoinment  for the vaccination of a patient"""
@@ -12,14 +17,14 @@ class VaccinationAppoinment:
     def __init__(self, input_file) -> None:
         self.__json_content = self.read_json_file(input_file)
         self.validate_key_labels(self.__json_content)
-
         self.__alg = "SHA-256"
         self.__type = "DS"
-        self.__patient_id = guid
-        self.__patient_sys_id = patient_sys_id
-        self.__phone_number = patient_phone_number
+        self.__patient_sys_id = SystemId(self.__json_content["PatientSystemID"]).value
+        self.__phone_number = PhoneNumber(self.__json_content["ContactPhoneNumber"]).value
+        self.__patient_id = self.check_patient_sys_id(self.__json_content)
         justnow = datetime.utcnow()
         self.__issued_at = datetime.timestamp(justnow)
+        days = 10
         if days == 0:
             self.__appoinment_date = 0
         else:
@@ -100,3 +105,28 @@ class VaccinationAppoinment:
         if not ("ContactPhoneNumber" in label_list.keys()):
             raise VaccineManagementException("Bad label contact phone")
         return label_list
+
+    def check_patient_sys_id(self, data: dict) -> str:
+        my_store = PatientJsonStore()
+        item = my_store.find_patient_store(data)
+
+        if item is None:
+            raise VaccineManagementException("patient_system_id not found")
+
+        # retrieve the patients data
+        guid = item["_VaccinePatientRegister__patient_id"]
+        name = item["_VaccinePatientRegister__full_name"]
+        reg_type = item["_VaccinePatientRegister__registration_type"]
+        phone = item["_VaccinePatientRegister__phone_number"]
+        patient_timestamp = item["_VaccinePatientRegister__time_stamp"]
+        age = item["_VaccinePatientRegister__age"]
+        # set the date when the patient was registered for checking the md5
+        freezer = freeze_time(datetime.fromtimestamp(patient_timestamp).date())
+        freezer.start()
+        patient = VaccinePatientRegister(guid, name, reg_type, phone, age)
+        freezer.stop()
+
+        if patient.patient_system_id != data["PatientSystemID"]:
+            raise VaccineManagementException("Patient's data have been manipulated")
+
+        return guid

@@ -47,53 +47,28 @@ class VaccineManager:
     def get_vaccine_date(self, input_file: str) -> str:
         """Gets an appoinment for a registered patient"""
 
-        data = self.read_json_file(input_file)
+        #data = self.read_json_file(input_file)
 
-        self.validate_key_labels(data)
-        SystemId(data["PatientSystemID"])
-        PhoneNumber(data["ContactPhoneNumber"])
+        #self.validate_key_labels(data)
+        #SystemId(data["PatientSystemID"])
+        #PhoneNumber(data["ContactPhoneNumber"])
 
         #item_found = self.find_patient_store(data)
-        my_store = PatientJsonStore()
-        item_found = my_store.find_patient_store(data)
+        #my_store = PatientJsonStore()
+        #item_found = my_store.find_patient_store(data)
 
-        if item_found is None:
-            raise VaccineManagementException("patient_system_id not found")
+        #if item_found is None:
+            #raise VaccineManagementException("patient_system_id not found")
 
-        guid = self.check_patient_sys_id(data, item_found)
+        #guid = self.check_patient_sys_id(data, item_found)
 
-        my_sign = VaccinationAppoinment(guid, data["PatientSystemID"], data["ContactPhoneNumber"], 10)
+        my_sign = VaccinationAppoinment(input_file)
 
         # save the date in store_date.json
         my_store_date = AppointmentJsonStore()
         my_store_date.add_item(my_sign)
 
         return my_sign.date_signature
-
-    def check_patient_sys_id(self, data: dict, item: VaccinePatientRegister) -> str:
-        # retrieve the patients data
-        guid = item["_VaccinePatientRegister__patient_id"]
-        name = item["_VaccinePatientRegister__full_name"]
-        reg_type = item["_VaccinePatientRegister__registration_type"]
-        phone = item["_VaccinePatientRegister__phone_number"]
-        patient_timestamp = item["_VaccinePatientRegister__time_stamp"]
-        age = item["_VaccinePatientRegister__age"]
-        # set the date when the patient was registered for checking the md5
-        freezer = freeze_time(datetime.fromtimestamp(patient_timestamp).date())
-        freezer.start()
-        patient = VaccinePatientRegister(guid, name, reg_type, phone, age)
-        freezer.stop()
-        if patient.patient_system_id != data["PatientSystemID"]:
-            raise VaccineManagementException("Patient's data have been manipulated")
-        return guid
-
-    def validate_key_labels(self, label_list):
-        """ checking all the levels of the input json file"""
-        if not ("PatientSystemID" in label_list.keys()):
-            raise VaccineManagementException("Bad label patient_id")
-        if not ("ContactPhoneNumber" in label_list.keys()):
-            raise VaccineManagementException("Bad label contact phone")
-        return label_list
 
     def register_vaccine_patient(self, date_signature: str) -> True:
         """Register the vaccination of the patient"""
