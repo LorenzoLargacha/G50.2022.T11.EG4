@@ -16,6 +16,16 @@ from uc3m_care.exception.vaccine_management_exception import VaccineManagementEx
 
 class VaccinePatientRegister:
     """Class representing the register of the patient in the system"""
+    KEY_LABEL_PATIENT_ID = "_VaccinePatientRegister__patient_id"
+    KEY_LABEL_FULL_NAME = "_VaccinePatientRegister__full_name"
+    KEY_LABEL_REGISTRATION_TYPE = "_VaccinePatientRegister__registration_type"
+    KEY_LABEL_PHONE_NUMBER = "_VaccinePatientRegister__phone_number"
+    KEY_LABEL_AGE = "_VaccinePatientRegister__age"
+    KEY_LABEL_TIME_STAMP = "_VaccinePatientRegister__time_stamp"
+    KEY_LABEL_PATIENT_SYSTEM_ID = "_VaccinePatientRegister__patient_sys_id"
+    __ERROR_MESSAGE_PATIENT_SYS_ID_INCORRECT = "Patient's data have been manipulated"
+    __ERROR_MESSAGE_PATIENT_SYS_ID_NOT_FOUND = "patient_system_id not found"
+
     #pylint: disable=too-many-arguments
     def __init__(self, patient_id: str, full_name: str, registration_type: str, phone_number: str, age: str) -> None:
         self.__patient_id = Uuid(patient_id).value
@@ -97,25 +107,25 @@ class VaccinePatientRegister:
         # Luego buscamos
         found = False
         for item in data_list:
-            if item["_VaccinePatientRegister__patient_sys_id"] == patient_system_id:
+            if item[cls.KEY_LABEL_PATIENT_SYSTEM_ID] == patient_system_id:
                 found = True
                 # retrieve the patients data
-                guid = item["_VaccinePatientRegister__patient_id"]
-                name = item["_VaccinePatientRegister__full_name"]
-                reg_type = item["_VaccinePatientRegister__registration_type"]
-                phone = item["_VaccinePatientRegister__phone_number"]
-                age = item["_VaccinePatientRegister__age"]
+                guid = item[cls.KEY_LABEL_PATIENT_ID]
+                name = item[cls.KEY_LABEL_FULL_NAME]
+                reg_type = item[cls.KEY_LABEL_REGISTRATION_TYPE]
+                phone = item[cls.KEY_LABEL_PHONE_NUMBER]
+                age = item[cls.KEY_LABEL_AGE]
                 # set the date when the patient was registered for checking the md5
-                patient_timestamp = item["_VaccinePatientRegister__time_stamp"]
+                patient_timestamp = item[cls.KEY_LABEL_TIME_STAMP]
                 freezer = freeze_time(datetime.fromtimestamp(patient_timestamp).date())
                 freezer.start()
                 patient = cls(guid, name, reg_type, phone, age)
                 freezer.stop()
                 # comprobamos si el patient_system_id generado coincide con el recibido
                 if patient.patient_system_id != patient_system_id:
-                    raise VaccineManagementException("Patient's data have been manipulated")
+                    raise VaccineManagementException(cls.__ERROR_MESSAGE_PATIENT_SYS_ID_INCORRECT)
         if not found:
-            raise VaccineManagementException("patient_system_id not found")
+            raise VaccineManagementException(cls.__ERROR_MESSAGE_PATIENT_SYS_ID_NOT_FOUND)
         """
         # retrieve the patients data
         guid = item["_VaccinePatientRegister__patient_id"]
