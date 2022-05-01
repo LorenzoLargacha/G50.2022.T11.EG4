@@ -10,13 +10,16 @@ class AppointmentJsonStore(JsonStore):
     _FILE_PATH = JSON_FILES_PATH + "store_date.json"
     _ID_FIELD = "_VaccinationAppoinment__date_signature"
 
+    __ERROR_MESSAGE_INVALID_APPOINMENT_OBJ = "Invalid vaccination appointment object"
+    __ERROR_MESSAGE_FILE_NOT_FOUND = "Store_date not found"
+
     def __init__(self):
         pass
 
     def add_item(self, date: VaccinationAppoinment) -> None:
         """Saves the appoinment into a file"""
         if not isinstance(date, VaccinationAppoinment):
-            raise VaccineManagementException("Invalid vaccination appointment object")
+            raise VaccineManagementException(self.__ERROR_MESSAGE_INVALID_APPOINMENT_OBJ)
         super().add_item(date)
 
     def find_date_signature(self, date_signature: str) -> VaccinationAppoinment:
@@ -33,7 +36,7 @@ class AppointmentJsonStore(JsonStore):
             with open(self._FILE_PATH, "r", encoding="utf-8", newline="") as file:
                 data_list = json.load(file)
         except json.JSONDecodeError as exception:
-            raise VaccineManagementException("JSON Decode Error - Wrong JSON Format") from exception
+            raise VaccineManagementException(self.__ERROR_MESSAGE_JSON_DECODE) from exception
         except FileNotFoundError as exception:
-            raise VaccineManagementException("Store_date not found") from exception
+            raise VaccineManagementException(self.__ERROR_MESSAGE_FILE_NOT_FOUND) from exception
         return data_list
