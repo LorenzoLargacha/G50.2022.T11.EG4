@@ -80,24 +80,27 @@ class VaccineManager:
 
         #date_time = self.find_date_signature(date_signature)
         #my_store_date = JsonStore()
+        #check if this date is in store_date
         my_store_date = AppointmentJsonStore()
         item = my_store_date.find_date_signature(date_signature)
-
         if item is None:
             raise VaccineManagementException("date_signature is not found")
 
         date_time = item["_VaccinationAppoinment__appoinment_date"]
 
-        today = datetime.today().date()
-        date_patient = datetime.fromtimestamp(date_time).date()
-        if date_patient != today:
-            raise VaccineManagementException("Today is not the date")
+        self.is_the_date(date_time)
 
         #self.save_vaccine(date_signature)
         my_store_vaccine = VaccineJsonStore()
         my_store_vaccine.add_item(my_vaccine_log)
 
         return True
+
+    def is_the_date(self, date_time):
+        today = datetime.today().date()
+        date_patient = datetime.fromtimestamp(date_time).date()
+        if date_patient != today:
+            raise VaccineManagementException("Today is not the date")
 
 
 
