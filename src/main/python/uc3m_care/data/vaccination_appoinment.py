@@ -6,9 +6,6 @@ import json
 from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 from uc3m_care.parser.attribute_phone_number import PhoneNumber
 from uc3m_care.parser.attribute_system_id import SystemId
-from uc3m_care.parser.attribute_uuid import Uuid
-from uc3m_care.storage.patient_json_store import PatientJsonStore
-from freezegun import freeze_time
 from uc3m_care.data.vaccine_patient_register import VaccinePatientRegister
 
 class VaccinationAppoinment:
@@ -21,7 +18,7 @@ class VaccinationAppoinment:
         self.__type = "DS"
         self.__patient_sys_id = SystemId(self.__json_content["PatientSystemID"]).value
         self.__phone_number = PhoneNumber(self.__json_content["ContactPhoneNumber"]).value
-        self.__patient_id = self.check_patient_sys_id(self.__json_content)
+        self.__patient_id = VaccinePatientRegister.check_patient_sys_id(self.__patient_sys_id)
         justnow = datetime.utcnow()
         self.__issued_at = datetime.timestamp(justnow)
         days = 10
@@ -106,27 +103,4 @@ class VaccinationAppoinment:
             raise VaccineManagementException("Bad label contact phone")
         return label_list
 
-    def check_patient_sys_id(self, data: dict) -> str:
-        my_store = PatientJsonStore()
-        item = my_store.find_patient_store(data)
 
-        if item is None:
-            raise VaccineManagementException("patient_system_id not found")
-
-        # retrieve the patients data
-        guid = item["_VaccinePatientRegister__patient_id"]
-        name = item["_VaccinePatientRegister__full_name"]
-        reg_type = item["_VaccinePatientRegister__registration_type"]
-        phone = item["_VaccinePatientRegister__phone_number"]
-        patient_timestamp = item["_VaccinePatientRegister__time_stamp"]
-        age = item["_VaccinePatientRegister__age"]
-        # set the date when the patient was registered for checking the md5
-        freezer = freeze_time(datetime.fromtimestamp(patient_timestamp).date())
-        freezer.start()
-        patient = VaccinePatientRegister(guid, name, reg_type, phone, age)
-        freezer.stop()
-
-        if patient.patient_system_id != data["PatientSystemID"]:
-            raise VaccineManagementException("Patient's data have been manipulated")
-
-        return guid

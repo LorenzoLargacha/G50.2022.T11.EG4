@@ -1,5 +1,5 @@
-from uc3m_care.storage.json_store import JsonStore
 from uc3m_care.data.vaccine_patient_register import VaccinePatientRegister
+from uc3m_care.storage.json_store import JsonStore
 from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 from uc3m_care.cfg.vaccine_manager_config import JSON_FILES_PATH
 
@@ -34,6 +34,7 @@ class PatientJsonStore(JsonStore):
 
         return True
 
+
     def find_patient_store(self, data: dict) -> VaccinePatientRegister:
         with open(self._FILE_PATH, "r", encoding="utf-8", newline=""):
             self._ID_FIELD = "_VaccinePatientRegister__patient_sys_id"
@@ -41,3 +42,4 @@ class PatientJsonStore(JsonStore):
             self._ID_FIELD = "_VaccinePatientRegister__patient_id"
 
         return item_found
+

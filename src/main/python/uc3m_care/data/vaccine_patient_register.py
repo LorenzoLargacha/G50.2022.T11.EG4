@@ -3,11 +3,15 @@ import hashlib
 import json
 from datetime import datetime
 
+from uc3m_care.cfg.vaccine_manager_config import JSON_FILES_PATH
 from uc3m_care.parser.attribute_uuid import Uuid
 from uc3m_care.parser.attribute_name_surname import NameSurname
 from uc3m_care.parser.attribute_registration_type import RegistrationType
 from uc3m_care.parser.attribute_phone_number import PhoneNumber
 from uc3m_care.parser.attribute_age import Age
+from uc3m_care.storage.patient_json_store import PatientJsonStore
+from freezegun import freeze_time
+from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 
 
 class VaccinePatientRegister:
@@ -79,3 +83,29 @@ class VaccinePatientRegister:
     def patient_sys_id(self) -> str:
         """Property representing the md5 generated"""
         return self.__patient_sys_id
+
+    @classmethod
+    def check_patient_sys_id(cls, patient_system_id: str) -> str:
+        file_store = JSON_FILES_PATH + "store_patient_json"
+        my_store = PatientJsonStore()
+        item = my_store.find_patient_store(file_store)
+        if item is None:
+            raise VaccineManagementException("patient_system_id not found")
+
+        # retrieve the patients data
+        guid = item["_VaccinePatientRegister__patient_id"]
+        name = item["_VaccinePatientRegister__full_name"]
+        reg_type = item["_VaccinePatientRegister__registration_type"]
+        phone = item["_VaccinePatientRegister__phone_number"]
+        age = item["_VaccinePatientRegister__age"]
+        # set the date when the patient was registered for checking the md5
+        patient_timestamp = item["_VaccinePatientRegister__time_stamp"]
+        freezer = freeze_time(datetime.fromtimestamp(patient_timestamp).date())
+        freezer.start()
+        patient = cls(guid, name, reg_type, phone, age)
+        freezer.stop()
+
+        if patient.patient_system_id != patient_system_id:
+            raise VaccineManagementException("Patient's data have been manipulated")
+
+        return guid
