@@ -7,14 +7,14 @@ from uc3m_care.exception.vaccine_management_exception import VaccineManagementEx
 from uc3m_care.parser.attribute_phone_number import PhoneNumber
 from uc3m_care.parser.attribute_system_id import SystemId
 from uc3m_care.data.vaccine_patient_register import VaccinePatientRegister
-from uc3m_care.parser.json_parser import JsonParser
+from uc3m_care.parser.appointment_json_parser import AppointmentJsonParser
 
 
 class VaccinationAppoinment:
     """Class representing an appoinment  for the vaccination of a patient"""
 
     def __init__(self, input_file) -> None:
-        self.__json_content = JsonParser(input_file).json_content
+        self.__json_content = AppointmentJsonParser(input_file).json_content
         self.__alg = "SHA-256"
         self.__type = "DS"
         self.__patient_sys_id = SystemId(self.__json_content["PatientSystemID"]).value

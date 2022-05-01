@@ -3,6 +3,8 @@ import json
 from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 
 class JsonParser:
+    _key_list = []
+    _key_error_message = []
     def __init__(self, input_file):
         self._json_content = self._read_json_file(input_file)
         self._validate_key_labels()
@@ -20,10 +22,15 @@ class JsonParser:
 
     def _validate_key_labels(self) -> None:
         """ checking all the levels of the input json file"""
-        if not ("PatientSystemID" in self._json_content.keys()):
-            raise VaccineManagementException("Bad label patient_id")
-        if not ("ContactPhoneNumber" in self._json_content.keys()):
-            raise VaccineManagementException("Bad label contact phone")
+        i = 0
+        for key in self._key_list:
+            if not key in self._json_content.keys():
+                raise VaccineManagementException(self._key_error_message[i])
+            i = i+1
+        #if not ("PatientSystemID" in self._json_content.keys()):
+            #raise VaccineManagementException("Bad label patient_id")
+        #if not ("ContactPhoneNumber" in self._json_content.keys()):
+            #raise VaccineManagementException("Bad label contact phone")
 
     @property
     def json_content(self):
