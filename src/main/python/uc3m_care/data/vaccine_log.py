@@ -1,8 +1,10 @@
 """ Module """
 from datetime import datetime
 from uc3m_care.data.attribute.attribute_date_signature import DateSignature
+from uc3m_care.data.vaccination_appoinment import VaccinationAppoinment
 from uc3m_care.storage.appointment_json_store import AppointmentJsonStore
 from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
+
 
 class VaccineLog:
     """Clase que representa la firma y fecha de vacunación de un paciente"""
@@ -16,27 +18,27 @@ class VaccineLog:
         self.__time_stamp = datetime.timestamp(justnow)
 
     @property
-    def date_signature(self):
+    def date_signature(self) -> str:
         return self.__date_signature
 
     @date_signature.setter
-    def date_signature(self, value):
+    def date_signature(self, value: str) -> None:
         self.__date_signature = DateSignature(value).value
 
     @property
-    def time_stamp (self):
-        return self.__timestamp
+    def time_stamp(self) -> float:
+        return self.__time_stamp
 
     @time_stamp.setter
-    def time_stamp (self, value):
+    def time_stamp(self, value: float) -> None:
         self.__time_stamp = value
 
-    def check_date(self):
+    def check_date(self) -> None:
         item = self.check_date_signature()
         date_time = item[self.KEY_LABEL_APPOINMENT_DATE]
         self.is_the_date(date_time)
 
-    def check_date_signature(self):
+    def check_date_signature(self) -> VaccinationAppoinment:
         # check if this date is in store_date
         my_store_date = AppointmentJsonStore()
         item = my_store_date.find_date_signature(self.__date_signature)
@@ -44,9 +46,8 @@ class VaccineLog:
             raise VaccineManagementException(self.__ERROR_MESSAGE_DATE_SIGNATURE_NOT_FOUND)
         return item
 
-    def is_the_date(self, date_time):
+    def is_the_date(self, date_time: float) -> None:
         today = datetime.today().date()
         date_patient = datetime.fromtimestamp(date_time).date()
         if date_patient != today:
             raise VaccineManagementException(self.__ERROR_MESSAGE_NOT_THE_DATE)
-
