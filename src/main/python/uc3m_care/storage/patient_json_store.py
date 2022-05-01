@@ -8,21 +8,24 @@ class PatientJsonStore(JsonStore):
     _FILE_PATH = JSON_FILES_PATH + "store_patient.json"
     _ID_FIELD = "_VaccinePatientRegister__patient_id"
 
+    __ERROR_MESSAGE_INVALID_OBJECT = "Invalid vaccine patient register object"
+    __ERROR_MESSAGE_PATIENT_ID_REGISTERED = "patien_id is registered in store_patient"
+
     def __init__(self):
         pass
 
     def save_store_patient(self, patient: VaccinePatientRegister) -> True:
         """Method for saving the patients store"""
         if not isinstance(patient, VaccinePatientRegister):
-            raise VaccineManagementException("Invalid vaccine patient register object")
+            raise VaccineManagementException(self.__ERROR_MESSAGE_INVALID_OBJECT)
 
         found = False
         # Buscamos el patient_id
         item = self.find_item(patient.patient_id)
         # Si lo encontramos, buscamos el registration_type y el full_name
         if item is not None:
-            if (item["_VaccinePatientRegister__registration_type"] == patient.vaccine_type) and \
-                    (item["_VaccinePatientRegister__full_name"] == patient.full_name):
+            if (item[VaccinePatientRegister.KEY_LABEL_REGISTRATION_TYPE] == patient.vaccine_type) and \
+                    (item[VaccinePatientRegister.KEY_LABEL_FULL_NAME] == patient.full_name):
                 found = True
 
         if found is False:
@@ -30,16 +33,15 @@ class PatientJsonStore(JsonStore):
             self.add_item(patient)
 
         if found is True:
-            raise VaccineManagementException("patien_id is registered in store_patient")
+            raise VaccineManagementException(self.__ERROR_MESSAGE_PATIENT_ID_REGISTERED)
 
         return True
 
 
     def find_patient_store(self, patient_system_id: str) -> VaccinePatientRegister:
         with open(self._FILE_PATH, "r", encoding="utf-8", newline=""):
-            self._ID_FIELD = "_VaccinePatientRegister__patient_sys_id"
+            self._ID_FIELD = VaccinePatientRegister.KEY_LABEL_PATIENT_SYSTEM_ID
             item_found = self.find_item(patient_system_id)
-            self._ID_FIELD = "_VaccinePatientRegister__patient_id"
+            self._ID_FIELD = VaccinePatientRegister.KEY_LABEL_PATIENT_ID
 
         return item_found
-
