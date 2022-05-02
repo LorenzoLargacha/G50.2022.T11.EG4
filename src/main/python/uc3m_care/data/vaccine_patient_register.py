@@ -46,6 +46,7 @@ class VaccinePatientRegister:
         """Property representing the name and the surname of
         the person who request the registration"""
         return self.__full_name
+
     @full_name.setter
     def full_name(self, value: str) -> None:
         self.__full_name = NameSurname(value).value
@@ -54,6 +55,7 @@ class VaccinePatientRegister:
     def vaccine_type(self) -> str:
         """Property representing the type vaccine"""
         return self.__registration_type
+
     @vaccine_type.setter
     def vaccine_type(self, value: str) -> None:
         self.__registration_type = RegistrationType(value).value
@@ -62,6 +64,7 @@ class VaccinePatientRegister:
     def phone_number(self) -> str:
         """Property representing the requester's phone number"""
         return self.__phone_number
+
     @phone_number.setter
     def phone_number(self, value: str) -> None:
         self.__phone_number = PhoneNumber(value).value
@@ -70,6 +73,7 @@ class VaccinePatientRegister:
     def patient_id(self) -> str:
         """Property representing the requester's UUID"""
         return self.__patient_id
+
     @patient_id.setter
     def patient_id(self, value: str) -> None:
         self.__patient_id = Uuid(value).value
