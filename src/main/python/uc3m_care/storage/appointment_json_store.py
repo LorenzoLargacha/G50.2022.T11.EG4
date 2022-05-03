@@ -11,7 +11,7 @@ class AppointmentJsonStore(JsonStore):
     """Clase hija de JsonStore con los atributos para store_date"""
 
     class __AppointmentJsonStore(JsonStore):
-        """Clase privada"""
+        """Clase privada, patron singleton"""
         _FILE_PATH = JSON_FILES_PATH + "store_date.json"
         _ID_FIELD = "_VaccinationAppoinment__date_signature"
 
