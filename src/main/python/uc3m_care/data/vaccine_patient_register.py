@@ -4,13 +4,12 @@ import json
 from datetime import datetime
 from freezegun import freeze_time
 
-from uc3m_care.cfg.vaccine_manager_config import JSON_FILES_PATH
 from uc3m_care.data.attribute.attribute_uuid import Uuid
 from uc3m_care.data.attribute.attribute_name_surname import NameSurname
 from uc3m_care.data.attribute.attribute_registration_type import RegistrationType
 from uc3m_care.data.attribute.attribute_phone_number import PhoneNumber
 from uc3m_care.data.attribute.attribute_age import Age
-#from uc3m_care.storage.patient_json_store import PatientJsonStore
+from uc3m_care.storage.patient_json_store import PatientJsonStore
 from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 
 
@@ -24,7 +23,6 @@ class VaccinePatientRegister:
     KEY_LABEL_TIME_STAMP = "_VaccinePatientRegister__time_stamp"
     KEY_LABEL_PATIENT_SYSTEM_ID = "_VaccinePatientRegister__patient_sys_id"
     __ERROR_MESSAGE_PATIENT_SYS_ID_INCORRECT = "Patient's data have been manipulated"
-    __ERROR_MESSAGE_PATIENT_SYS_ID_NOT_FOUND = "patient_system_id not found"
 
     def __init__(self, patient_id: str, full_name: str, registration_type: str,
                  phone_number: str, age: str) -> None:
@@ -101,50 +99,22 @@ class VaccinePatientRegister:
     @classmethod
     def check_patient_sys_id(cls, patient_system_id: str) -> str:
         """Checks if a patient_system_id is in store_patient"""
-        file_store = JSON_FILES_PATH + "store_patient.json"
-        """
         my_store = PatientJsonStore()
         item = my_store.find_patient_store(patient_system_id)
-        """
-        with open(file_store, "r", encoding="utf-8", newline="") as file:
-            data_list = json.load(file)
 
-        found = False
-        for item in data_list:
-            if item[cls.KEY_LABEL_PATIENT_SYSTEM_ID] == patient_system_id:
-                found = True
-
-                guid = item[cls.KEY_LABEL_PATIENT_ID]
-                name = item[cls.KEY_LABEL_FULL_NAME]
-                reg_type = item[cls.KEY_LABEL_REGISTRATION_TYPE]
-                phone = item[cls.KEY_LABEL_PHONE_NUMBER]
-                age = item[cls.KEY_LABEL_AGE]
-                # set the date when the patient was registered for checking the md5
-                patient_timestamp = item[cls.KEY_LABEL_TIME_STAMP]
-                freezer = freeze_time(datetime.fromtimestamp(patient_timestamp).date())
-                freezer.start()
-                patient = cls(guid, name, reg_type, phone, age)
-                freezer.stop()
-
-                if patient.patient_system_id != patient_system_id:
-                    raise VaccineManagementException(cls.__ERROR_MESSAGE_PATIENT_SYS_ID_INCORRECT)
-        if not found:
-            raise VaccineManagementException(cls.__ERROR_MESSAGE_PATIENT_SYS_ID_NOT_FOUND)
-        """
-        # retrieve the patients data
-        guid = item["_VaccinePatientRegister__patient_id"]
-        name = item["_VaccinePatientRegister__full_name"]
-        reg_type = item["_VaccinePatientRegister__registration_type"]
-        phone = item["_VaccinePatientRegister__phone_number"]
-        age = item["_VaccinePatientRegister__age"]
+        guid = item[cls.KEY_LABEL_PATIENT_ID]
+        name = item[cls.KEY_LABEL_FULL_NAME]
+        reg_type = item[cls.KEY_LABEL_REGISTRATION_TYPE]
+        phone = item[cls.KEY_LABEL_PHONE_NUMBER]
+        age = item[cls.KEY_LABEL_AGE]
         # set the date when the patient was registered for checking the md5
-        patient_timestamp = item["_VaccinePatientRegister__time_stamp"]
+        patient_timestamp = item[cls.KEY_LABEL_TIME_STAMP]
         freezer = freeze_time(datetime.fromtimestamp(patient_timestamp).date())
         freezer.start()
         patient = cls(guid, name, reg_type, phone, age)
         freezer.stop()
-        # comprobamos si el patient_system_id generado coincide con el recibido
+        # check if the data has been manipulated
         if patient.patient_system_id != patient_system_id:
-            raise VaccineManagementException("Patient's data have been manipulated")
-        """
+            raise VaccineManagementException(cls.__ERROR_MESSAGE_PATIENT_SYS_ID_INCORRECT)
+
         return guid
