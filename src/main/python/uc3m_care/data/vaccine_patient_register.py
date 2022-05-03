@@ -26,8 +26,8 @@ class VaccinePatientRegister:
     __ERROR_MESSAGE_PATIENT_SYS_ID_INCORRECT = "Patient's data have been manipulated"
     __ERROR_MESSAGE_PATIENT_SYS_ID_NOT_FOUND = "patient_system_id not found"
 
-    #pylint: disable=too-many-arguments
-    def __init__(self, patient_id: str, full_name: str, registration_type: str, phone_number: str, age: str) -> None:
+    def __init__(self, patient_id: str, full_name: str, registration_type: str,
+                 phone_number: str, age: str) -> None:
         self.__patient_id = Uuid(patient_id).value
         self.__full_name = NameSurname(full_name).value
         self.__registration_type = RegistrationType(registration_type).value
@@ -100,6 +100,7 @@ class VaccinePatientRegister:
 
     @classmethod
     def check_patient_sys_id(cls, patient_system_id: str) -> str:
+        """Checks if a patient_system_id is in store_patient"""
         file_store = JSON_FILES_PATH + "store_patient.json"
         """
         my_store = PatientJsonStore()

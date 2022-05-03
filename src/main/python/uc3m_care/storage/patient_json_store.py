@@ -16,9 +16,6 @@ class PatientJsonStore(JsonStore):
         __ERROR_MESSAGE_INVALID_OBJECT = "Invalid vaccine patient register object"
         __ERROR_MESSAGE_PATIENT_ID_REGISTERED = "patien_id is registered in store_patient"
 
-        def __init__(self):
-            pass
-
         def save_store_patient(self, patient: VaccinePatientRegister) -> True:
             """Saves a patient into a file"""
             if not isinstance(patient, VaccinePatientRegister):
@@ -29,8 +26,8 @@ class PatientJsonStore(JsonStore):
             item = self.find_item(patient.patient_id)
             # Si lo encontramos, buscamos el registration_type y el full_name
             if item is not None:
-                if (item[VaccinePatientRegister.KEY_LABEL_REGISTRATION_TYPE] == patient.vaccine_type) and \
-                        (item[VaccinePatientRegister.KEY_LABEL_FULL_NAME] == patient.full_name):
+                if (item[VaccinePatientRegister.KEY_LABEL_REGISTRATION_TYPE]==patient.vaccine_type)\
+                        and (item[VaccinePatientRegister.KEY_LABEL_FULL_NAME] == patient.full_name):
                     found = True
 
             if found is False:

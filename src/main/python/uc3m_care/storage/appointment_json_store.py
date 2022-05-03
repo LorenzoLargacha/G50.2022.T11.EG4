@@ -18,14 +18,11 @@ class AppointmentJsonStore(JsonStore):
         __ERROR_MESSAGE_INVALID_OBJECT = "Invalid vaccination appointment object"
         __ERROR_MESSAGE_FILE_NOT_FOUND = "Store_date not found"
 
-        def __init__(self):
-            pass
-
-        def add_item(self, date: VaccinationAppoinment) -> None:
+        def add_item(self, item: VaccinationAppoinment) -> None:
             """Saves an appoinment into a file"""
-            if not isinstance(date, VaccinationAppoinment):
+            if not isinstance(item, VaccinationAppoinment):
                 raise VaccineManagementException(self.__ERROR_MESSAGE_INVALID_OBJECT)
-            super().add_item(date)
+            super().add_item(item)
 
         def find_date_signature(self, date_signature: str) -> VaccinationAppoinment:
             """Checks if a date_signature is in store_date"""

@@ -16,7 +16,6 @@ class VaccineManager:
         def __init__(self):
             pass
 
-        #pylint: disable=too-many-arguments
         def request_vaccination_id(self, patient_id: str,
                                    name_surname: str,
                                    registration_type: str,

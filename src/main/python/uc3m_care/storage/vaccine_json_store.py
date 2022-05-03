@@ -14,14 +14,11 @@ class VaccineJsonStore(JsonStore):
 
         __ERROR_MESSAGE_INVALID_OBJECT = "Invalid vaccine log object"
 
-        def __init__(self):
-            pass
-
-        def add_item(self, vaccine_log: VaccineLog) -> None:
+        def add_item(self, item: VaccineLog) -> None:
             """Saves a vaccine into a file"""
-            if not isinstance(vaccine_log, VaccineLog):
+            if not isinstance(item, VaccineLog):
                 raise VaccineManagementException(self.__ERROR_MESSAGE_INVALID_OBJECT)
-            super().add_item(vaccine_log)
+            super().add_item(item)
 
     __instance = None
 

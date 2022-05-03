@@ -1,8 +1,10 @@
+"""Module attribute"""
 import re
 from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 
 
 class Attribute:
+    """Clase que representa los atributos y sus expresiones regex"""
     def __init__(self):
         self._attr_value = ""
         self._validation_pattern = r""
@@ -18,6 +20,7 @@ class Attribute:
 
     @property
     def value(self) -> str:
+        """Property that represents the value of an attribute"""
         return self._attr_value
 
     @value.setter
