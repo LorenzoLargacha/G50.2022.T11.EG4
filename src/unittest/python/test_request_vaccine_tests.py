@@ -105,7 +105,7 @@ class TestRequestVacID(unittest.TestCase):
     #pylint: disable=too-many-locals
     @freeze_time("2022-03-08")
     def test_parametrized_valid_request_vaccination(self):
-        "Parametrized tests: valid cases"
+        """Parametrized tests: valid cases"""
         file_store = JSON_FILES_PATH + "store_patient.json"
         if os.path.isfile(file_store):
             os.remove(file_store)
@@ -126,7 +126,7 @@ class TestRequestVacID(unittest.TestCase):
                         found = True
                 self.assertTrue(found)
 
-    def test_parametrized_not_valid_request_vaccination( self ):
+    def test_parametrized_not_valid_request_vaccination(self):
         """Method for testing request_vaccination_id: invalid cases"""
         file_store = JSON_FILES_PATH + "store_patient.json"
         my_request = VaccineManager()
