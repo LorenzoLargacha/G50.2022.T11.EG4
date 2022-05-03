@@ -10,41 +10,51 @@ from uc3m_care.data.vaccination_appoinment import VaccinationAppoinment
 
 class VaccineManager:
     """Class for providing the methods for managing the vaccination process"""
-    def __init__(self):
-        pass
 
-    #pylint: disable=too-many-arguments
-    def request_vaccination_id(self, patient_id: str,
-                               name_surname: str,
-                               registration_type: str,
-                               phone_number: str,
-                               age: str) -> str:
-        """Register a patinent"""
-        my_patient = VaccinePatientRegister(patient_id,
-                                            name_surname,
-                                            registration_type,
-                                            phone_number,
-                                            age)
-        my_store_patient = PatientJsonStore()
-        my_store_patient.save_store_patient(my_patient)
+    class __VaccineManager:
+        """Clase privada, patron singleton"""
+        def __init__(self):
+            pass
 
-        return my_patient.patient_sys_id
+        #pylint: disable=too-many-arguments
+        def request_vaccination_id(self, patient_id: str,
+                                   name_surname: str,
+                                   registration_type: str,
+                                   phone_number: str,
+                                   age: str) -> str:
+            """Register a patinent"""
+            my_patient = VaccinePatientRegister(patient_id,
+                                                name_surname,
+                                                registration_type,
+                                                phone_number,
+                                                age)
+            my_store_patient = PatientJsonStore()
+            my_store_patient.save_store_patient(my_patient)
 
-    def get_vaccine_date(self, input_file: str) -> str:
-        """Gets an appoinment for a registered patient"""
-        my_sign = VaccinationAppoinment(input_file)
+            return my_patient.patient_sys_id
 
-        my_store_date = AppointmentJsonStore()
-        my_store_date.add_item(my_sign)
+        def get_vaccine_date(self, input_file: str) -> str:
+            """Gets an appoinment for a registered patient"""
+            my_sign = VaccinationAppoinment(input_file)
 
-        return my_sign.date_signature
+            my_store_date = AppointmentJsonStore()
+            my_store_date.add_item(my_sign)
 
-    def register_vaccine_patient(self, date_signature: str) -> True:
-        """Registers the vaccination of a patient"""
-        my_vaccine_log = VaccineLog(date_signature)
-        my_vaccine_log.check_date()
+            return my_sign.date_signature
 
-        my_store_vaccine = VaccineJsonStore()
-        my_store_vaccine.add_item(my_vaccine_log)
+        def register_vaccine_patient(self, date_signature: str) -> True:
+            """Registers the vaccination of a patient"""
+            my_vaccine_log = VaccineLog(date_signature)
+            my_vaccine_log.check_date()
 
-        return True
+            my_store_vaccine = VaccineJsonStore()
+            my_store_vaccine.add_item(my_vaccine_log)
+
+            return True
+
+    __instance = None
+
+    def __new__(cls):
+        if not VaccineManager.__instance:
+            VaccineManager.__instance = VaccineManager.__VaccineManager()
+        return VaccineManager.__instance

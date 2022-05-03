@@ -1,6 +1,7 @@
 """Module for testing singleton"""
 import unittest
 
+from uc3m_care import VaccineManager
 from uc3m_care.storage.patient_json_store import PatientJsonStore
 from uc3m_care.storage.appointment_json_store import AppointmentJsonStore
 from uc3m_care.storage.vaccine_json_store import VaccineJsonStore
@@ -8,6 +9,17 @@ from uc3m_care.storage.vaccine_json_store import VaccineJsonStore
 
 class SingletonTests(unittest.TestCase):
     """Class for testing singleton"""
+    def test_singleton_vaccine_manager(self):
+        """Method for testing singleton on VaccineManager"""
+        my_store_1 = VaccineManager()
+        my_store_2 = VaccineManager()
+        my_store_3 = VaccineManager()
+        my_store_4 = VaccineManager()
+
+        self.assertEqual(my_store_1, my_store_2)
+        self.assertEqual(my_store_1, my_store_3)
+        self.assertEqual(my_store_1, my_store_4)
+
     def test_singleton_patient_json_store(self):
         """Method for testing singleton on PatientJsonStore"""
         my_store_1 = PatientJsonStore()

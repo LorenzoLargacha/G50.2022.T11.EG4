@@ -4,7 +4,7 @@ from uc3m_care.exception.vaccine_management_exception import VaccineManagementEx
 
 
 class JsonStore:
-    """Clase con los métodos para modificar los stores"""
+    """Clase con los métodos para gestionar los almacenes"""
     # Ruta fichero store
     _FILE_PATH = ""
     # Key a buscar
