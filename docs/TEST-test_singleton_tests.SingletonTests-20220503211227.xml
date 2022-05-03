@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test_singleton_tests.SingletonTests-20220503211227" tests="4" file="test_singleton_tests.py" time="0.027" timestamp="2022-05-03T21:12:28" failures="0" errors="0" skipped="0">
+	<testcase classname="test_singleton_tests.SingletonTests" name="test_singleton_appointment_json_store" time="0.001" timestamp="2022-05-03T21:12:28"/>
+	<testcase classname="test_singleton_tests.SingletonTests" name="test_singleton_patient_json_store" time="0.003" timestamp="2022-05-03T21:12:28"/>
+	<testcase classname="test_singleton_tests.SingletonTests" name="test_singleton_vaccine_json_store" time="0.012" timestamp="2022-05-03T21:12:28"/>
+	<testcase classname="test_singleton_tests.SingletonTests" name="test_singleton_vaccine_manager" time="0.010" timestamp="2022-05-03T21:12:28"/>
+</testsuite>
