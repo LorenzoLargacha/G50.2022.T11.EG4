@@ -19,7 +19,7 @@ class VaccineManager:
                                registration_type: str,
                                phone_number: str,
                                age: str) -> str:
-        """Register the patinent into the patients file"""
+        """Register a patinent"""
         my_patient = VaccinePatientRegister(patient_id,
                                             name_surname,
                                             registration_type,
@@ -40,7 +40,7 @@ class VaccineManager:
         return my_sign.date_signature
 
     def register_vaccine_patient(self, date_signature: str) -> True:
-        """Register the vaccination of the patient"""
+        """Registers the vaccination of a patient"""
         my_vaccine_log = VaccineLog(date_signature)
         my_vaccine_log.check_date()
 

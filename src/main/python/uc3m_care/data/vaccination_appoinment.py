@@ -1,9 +1,7 @@
-"""Contains the class Vaccination Appoinment"""
-from datetime import datetime
+"""Module vaccination_appoinment"""
 import hashlib
-import json
+from datetime import datetime
 
-from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
 from uc3m_care.data.attribute.attribute_phone_number import PhoneNumber
 from uc3m_care.data.attribute.attribute_system_id import SystemId
 from uc3m_care.data.vaccine_patient_register import VaccinePatientRegister
@@ -30,8 +28,8 @@ class VaccinationAppoinment:
         if days == 0:
             self.__appoinment_date = 0
         else:
-            #timestamp is represneted in seconds.microseconds
-            #age must be expressed in senconds to be added to the timestap
+            # timestamp is represented in seconds.microseconds
+            # age must be expressed in seconds to be added to the timestap
             self.__appoinment_date = self.__issued_at + (days * 24 * 60 * 60)
         self.__date_signature = self.vaccination_signature
 
@@ -46,6 +44,7 @@ class VaccinationAppoinment:
     def patient_id(self) -> str:
         """Property that represents the guid of the patient"""
         return self.__patient_id
+
     @patient_id.setter
     def patient_id(self, value: str) -> None:
         self.__patient_id = value
@@ -54,6 +53,7 @@ class VaccinationAppoinment:
     def patient_sys_id(self) -> str:
         """Property that represents the patient_sys_id of the patient"""
         return self.__patient_sys_id
+
     @patient_sys_id.setter
     def patient_sys_id(self, value: str) -> None:
         self.__patient_sys_id = value
@@ -62,6 +62,7 @@ class VaccinationAppoinment:
     def phone_number(self) -> str:
         """Property that represents the phone number of the patient"""
         return self.__phone_number
+
     @phone_number.setter
     def phone_number(self, value: str) -> None:
         self.__phone_number = value
@@ -75,6 +76,7 @@ class VaccinationAppoinment:
     def issued_at(self) -> float:
         """Returns the issued at value"""
         return self.__issued_at
+
     @issued_at.setter
     def issued_at(self, value: float) -> None:
         self.__issued_at = value

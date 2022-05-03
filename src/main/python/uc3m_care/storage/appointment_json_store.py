@@ -1,3 +1,4 @@
+"""Module appointment_json_store"""
 import json
 
 from uc3m_care.storage.json_store import JsonStore
@@ -7,6 +8,7 @@ from uc3m_care.cfg.vaccine_manager_config import JSON_FILES_PATH
 
 
 class AppointmentJsonStore(JsonStore):
+    """Clase hija de JsonStore con los atributos para store_date"""
     _FILE_PATH = JSON_FILES_PATH + "store_date.json"
     _ID_FIELD = "_VaccinationAppoinment__date_signature"
 
@@ -17,21 +19,19 @@ class AppointmentJsonStore(JsonStore):
         pass
 
     def add_item(self, date: VaccinationAppoinment) -> None:
-        """Saves the appoinment into a file"""
+        """Saves an appoinment into a file"""
         if not isinstance(date, VaccinationAppoinment):
             raise VaccineManagementException(self.__ERROR_MESSAGE_INVALID_OBJECT)
         super().add_item(date)
 
     def find_date_signature(self, date_signature: str) -> VaccinationAppoinment:
-        # check if this date is in store_date
+        """Checks if a date_signature is in store_date"""
         self.check_store()
-        # search this date_signature
         item = self.find_item(date_signature)
-
         return item
 
     def check_store(self) -> list:
-        # first read the file
+        """Tries to open store_date file"""
         try:
             with open(self._FILE_PATH, "r", encoding="utf-8", newline="") as file:
                 data_list = json.load(file)

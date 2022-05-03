@@ -1,3 +1,4 @@
+"""Module patient_json_store"""
 from uc3m_care.storage.json_store import JsonStore
 from uc3m_care.data.vaccine_patient_register import VaccinePatientRegister
 from uc3m_care.exception.vaccine_management_exception import VaccineManagementException
@@ -5,6 +6,7 @@ from uc3m_care.cfg.vaccine_manager_config import JSON_FILES_PATH
 
 
 class PatientJsonStore(JsonStore):
+    """Clase hija de JsonStore con los atributos para store_patient"""
     _FILE_PATH = JSON_FILES_PATH + "store_patient.json"
     _ID_FIELD = "_VaccinePatientRegister__patient_id"
 
@@ -15,7 +17,7 @@ class PatientJsonStore(JsonStore):
         pass
 
     def save_store_patient(self, patient: VaccinePatientRegister) -> True:
-        """Method for saving the patients store"""
+        """Saves a patient into a file"""
         if not isinstance(patient, VaccinePatientRegister):
             raise VaccineManagementException(self.__ERROR_MESSAGE_INVALID_OBJECT)
 
@@ -29,7 +31,6 @@ class PatientJsonStore(JsonStore):
                 found = True
 
         if found is False:
-            # Solo hago save si el paciente no estaba almacenado
             self.add_item(patient)
 
         if found is True:
@@ -37,8 +38,8 @@ class PatientJsonStore(JsonStore):
 
         return True
 
-
     def find_patient_store(self, patient_system_id: str) -> VaccinePatientRegister:
+        """Looks for a patient_system_id in store_patient"""
         with open(self._FILE_PATH, "r", encoding="utf-8", newline=""):
             self._ID_FIELD = VaccinePatientRegister.KEY_LABEL_PATIENT_SYSTEM_ID
             item_found = self.find_item(patient_system_id)

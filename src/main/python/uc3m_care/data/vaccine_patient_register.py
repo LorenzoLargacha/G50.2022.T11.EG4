@@ -1,4 +1,4 @@
-"""MODULE: access_request. Contains the access request class"""
+"""Module vaccine_patient_register"""
 import hashlib
 import json
 from datetime import datetime
@@ -105,15 +105,14 @@ class VaccinePatientRegister:
         my_store = PatientJsonStore()
         item = my_store.find_patient_store(patient_system_id)
         """
-        # Primero cargamos la lista
         with open(file_store, "r", encoding="utf-8", newline="") as file:
             data_list = json.load(file)
-        # Luego buscamos
+
         found = False
         for item in data_list:
             if item[cls.KEY_LABEL_PATIENT_SYSTEM_ID] == patient_system_id:
                 found = True
-                # retrieve the patients data
+
                 guid = item[cls.KEY_LABEL_PATIENT_ID]
                 name = item[cls.KEY_LABEL_FULL_NAME]
                 reg_type = item[cls.KEY_LABEL_REGISTRATION_TYPE]
@@ -125,7 +124,7 @@ class VaccinePatientRegister:
                 freezer.start()
                 patient = cls(guid, name, reg_type, phone, age)
                 freezer.stop()
-                # comprobamos si el patient_system_id generado coincide con el recibido
+
                 if patient.patient_system_id != patient_system_id:
                     raise VaccineManagementException(cls.__ERROR_MESSAGE_PATIENT_SYS_ID_INCORRECT)
         if not found:

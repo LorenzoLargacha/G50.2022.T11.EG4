@@ -1,5 +1,6 @@
-""" Module """
+"""Module vaccine_log"""
 from datetime import datetime
+
 from uc3m_care.data.attribute.attribute_date_signature import DateSignature
 from uc3m_care.data.vaccination_appoinment import VaccinationAppoinment
 from uc3m_care.storage.appointment_json_store import AppointmentJsonStore
@@ -19,6 +20,7 @@ class VaccineLog:
 
     @property
     def date_signature(self) -> str:
+        """Property that represents the signature of a vaccine log"""
         return self.__date_signature
 
     @date_signature.setter
@@ -27,6 +29,7 @@ class VaccineLog:
 
     @property
     def time_stamp(self) -> float:
+        """Property that represents the time stamp of a vaccine log"""
         return self.__time_stamp
 
     @time_stamp.setter
@@ -34,12 +37,13 @@ class VaccineLog:
         self.__time_stamp = value
 
     def check_date(self) -> None:
+        """Checks if a vaccination appointment is registered"""
         item = self.check_date_signature()
         date_time = item[self.KEY_LABEL_APPOINMENT_DATE]
         self.is_the_date(date_time)
 
     def check_date_signature(self) -> VaccinationAppoinment:
-        # check if this date is in store_date
+        """Checks if this date is in store_date"""
         my_store_date = AppointmentJsonStore()
         item = my_store_date.find_date_signature(self.__date_signature)
         if item is None:
@@ -47,6 +51,7 @@ class VaccineLog:
         return item
 
     def is_the_date(self, date_time: float) -> None:
+        """Checks if the date of the appointment is today"""
         today = datetime.today().date()
         date_patient = datetime.fromtimestamp(date_time).date()
         if date_patient != today:
